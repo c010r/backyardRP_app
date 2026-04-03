@@ -1,0 +1,4 @@
+Operations to perform:
+  Apply all migrations: admin, auditoria, auth, cajas, catalogo, clientes, comandas, configuracion, contenttypes, empleados, eventos, facturacion, inventario, mesas, pedidos, reservas, sessions, token_blacklist, usuarios
+Running migrations:
+  No migrations to apply.

@@ -1,0 +1,970 @@
+************* Module apps.comandas.apps
+apps/comandas/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/comandas/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.comandas.models
+apps/comandas/models.py:29:0: C0115: Missing class docstring (missing-class-docstring)
+apps/comandas/models.py:37:0: C0115: Missing class docstring (missing-class-docstring)
+apps/comandas/models.py:44:0: C0115: Missing class docstring (missing-class-docstring)
+apps/comandas/models.py:100:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/models.py:112:0: C0115: Missing class docstring (missing-class-docstring)
+apps/comandas/models.py:182:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.comandas.serializers
+apps/comandas/serializers.py:3:0: C0301: Line too long (113/100) (line-too-long)
+apps/comandas/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/comandas/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/comandas/serializers.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/serializers.py:54:0: C0115: Missing class docstring (missing-class-docstring)
+apps/comandas/serializers.py:74:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/serializers.py:77:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/serializers.py:98:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/serializers.py:101:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/serializers.py:104:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/serializers.py:108:0: C0115: Missing class docstring (missing-class-docstring)
+apps/comandas/serializers.py:108:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'TransferirMesaSerializer' (abstract-method)
+apps/comandas/serializers.py:108:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'TransferirMesaSerializer' (abstract-method)
+apps/comandas/serializers.py:111:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/serializers.py:112:8: C0415: Import outside toplevel (apps.mesas.models.Mesa) (import-outside-toplevel)
+apps/comandas/serializers.py:116:12: W0707: Consider explicitly re-raising using 'except Exception as exc' and 'raise serializers.ValidationError('Mesa destino no encontrada o inactiva.') from exc' (raise-missing-from)
+************* Module apps.comandas.views
+apps/comandas/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/comandas/views.py:97:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/views.py:133:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/views.py:165:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/views.py:201:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/comandas/views.py:1:0: W0611: Unused timezone imported from django.utils (unused-import)
+************* Module apps.comandas.urls
+apps/comandas/urls.py:11:0: C0301: Line too long (124/100) (line-too-long)
+apps/comandas/urls.py:14:0: C0301: Line too long (101/100) (line-too-long)
+apps/comandas/urls.py:15:0: C0301: Line too long (107/100) (line-too-long)
+apps/comandas/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.comandas.migrations.0001_initial
+apps/comandas/migrations/0001_initial.py:22:0: C0301: Line too long (117/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:24:0: C0301: Line too long (103/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:25:0: C0301: Line too long (152/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:26:0: C0301: Line too long (263/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:27:0: C0301: Line too long (120/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:28:0: C0301: Line too long (104/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:29:0: C0301: Line too long (103/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:30:0: C0301: Line too long (223/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:31:0: C0301: Line too long (197/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:42:0: C0301: Line too long (117/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:44:0: C0301: Line too long (103/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:46:0: C0301: Line too long (122/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:47:0: C0301: Line too long (119/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:48:0: C0301: Line too long (245/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:49:0: C0301: Line too long (180/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:51:0: C0301: Line too long (214/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:52:0: C0301: Line too long (161/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:53:0: C0301: Line too long (156/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:54:0: C0301: Line too long (195/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:55:0: C0301: Line too long (173/100) (line-too-long)
+apps/comandas/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/comandas/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/comandas/migrations/0001_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.inventario.apps
+apps/inventario/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/inventario/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/apps.py:10:8: C0415: Import outside toplevel (apps.inventario.signals) (import-outside-toplevel)
+apps/inventario/apps.py:10:8: W0611: Unused import apps.inventario.signals (unused-import)
+************* Module apps.inventario.admin
+apps/inventario/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/inventario/admin.py:1:0: W0611: Unused admin imported from django.contrib (unused-import)
+************* Module apps.inventario.signals
+apps/inventario/signals.py:40:0: C0301: Line too long (101/100) (line-too-long)
+apps/inventario/signals.py:101:0: C0301: Line too long (102/100) (line-too-long)
+apps/inventario/signals.py:22:12: W0212: Access to a protected member _estado_cocina_anterior of a client class (protected-access)
+apps/inventario/signals.py:26:12: W0212: Access to a protected member _estado_cocina_anterior of a client class (protected-access)
+apps/inventario/signals.py:28:8: W0212: Access to a protected member _estado_cocina_anterior of a client class (protected-access)
+apps/inventario/signals.py:32:0: R0914: Too many local variables (17/15) (too-many-locals)
+apps/inventario/signals.py:37:4: C0415: Import outside toplevel (apps.comandas.models.EstadoCocina) (import-outside-toplevel)
+apps/inventario/signals.py:51:4: C0415: Import outside toplevel (models.MovimientoStock, models.Receta, models.TipoMovimiento) (import-outside-toplevel)
+apps/inventario/signals.py:62:15: W0718: Catching too general exception Exception (broad-exception-caught)
+apps/inventario/signals.py:73:15: W0718: Catching too general exception Exception (broad-exception-caught)
+apps/inventario/signals.py:32:32: W0613: Unused argument 'sender' (unused-argument)
+apps/inventario/signals.py:83:12: W0212: Access to a protected member _estado_anterior of a client class (protected-access)
+apps/inventario/signals.py:87:12: W0212: Access to a protected member _estado_anterior of a client class (protected-access)
+apps/inventario/signals.py:89:8: W0212: Access to a protected member _estado_anterior of a client class (protected-access)
+apps/inventario/signals.py:98:4: C0415: Import outside toplevel (models.EstadoOrdenCompra, models.MovimientoStock, models.TipoMovimiento) (import-outside-toplevel)
+apps/inventario/signals.py:120:15: W0718: Catching too general exception Exception (broad-exception-caught)
+apps/inventario/signals.py:93:32: W0613: Unused argument 'sender' (unused-argument)
+************* Module apps.inventario.models
+apps/inventario/models.py:82:0: C0301: Line too long (104/100) (line-too-long)
+apps/inventario/models.py:218:0: C0301: Line too long (106/100) (line-too-long)
+apps/inventario/models.py:18:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/models.py:31:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/models.py:63:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/inventario/models.py:67:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/models.py:73:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/models.py:134:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/models.py:152:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/models.py:159:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/models.py:192:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/inventario/models.py:204:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/models.py:228:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.inventario.tests
+apps/inventario/tests.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/inventario/tests.py:1:0: W0611: Unused TestCase imported from django.test (unused-import)
+************* Module apps.inventario.serializers
+apps/inventario/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/inventario/serializers.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:36:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:52:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:68:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/inventario/serializers.py:72:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'AjusteStockSerializer' (abstract-method)
+apps/inventario/serializers.py:72:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'AjusteStockSerializer' (abstract-method)
+apps/inventario/serializers.py:85:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:97:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:107:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:119:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:138:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/inventario/serializers.py:142:0: C0115: Missing class docstring (missing-class-docstring)
+apps/inventario/serializers.py:142:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarEstadoOrdenSerializer' (abstract-method)
+apps/inventario/serializers.py:142:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarEstadoOrdenSerializer' (abstract-method)
+************* Module apps.inventario.views
+apps/inventario/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/inventario/views.py:69:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/inventario/views.py:195:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/inventario/views.py:227:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.inventario.urls
+apps/inventario/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.inventario.migrations.0001_initial
+apps/inventario/migrations/0001_initial.py:21:0: C0301: Line too long (117/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:23:0: C0301: Line too long (103/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:26:0: C0301: Line too long (127/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:27:0: C0301: Line too long (127/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:28:0: C0301: Line too long (133/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:40:0: C0301: Line too long (117/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:42:0: C0301: Line too long (103/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:44:0: C0301: Line too long (111/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:47:0: C0301: Line too long (102/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:60:0: C0301: Line too long (117/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:73:0: C0301: Line too long (117/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:75:0: C0301: Line too long (103/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:76:0: C0301: Line too long (230/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:77:0: C0301: Line too long (104/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:78:0: C0301: Line too long (112/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:80:0: C0301: Line too long (171/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:81:0: C0301: Line too long (214/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:92:0: C0301: Line too long (117/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:94:0: C0301: Line too long (103/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:95:0: C0301: Line too long (184/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:96:0: C0301: Line too long (108/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:97:0: C0301: Line too long (120/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:98:0: C0301: Line too long (114/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:100:0: C0301: Line too long (186/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:101:0: C0301: Line too long (217/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:112:0: C0301: Line too long (176/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:117:0: C0301: Line too long (117/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:118:0: C0301: Line too long (108/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:119:0: C0301: Line too long (122/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:120:0: C0301: Line too long (186/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:121:0: C0301: Line too long (173/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:131:0: C0301: Line too long (117/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:132:0: C0301: Line too long (119/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:133:0: C0301: Line too long (185/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:134:0: C0301: Line too long (165/100) (line-too-long)
+apps/inventario/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/inventario/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/inventario/migrations/0001_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.reservas.apps
+apps/reservas/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/reservas/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.reservas.validators
+apps/reservas/validators.py:46:0: C0301: Line too long (116/100) (line-too-long)
+apps/reservas/validators.py:49:0: C0325: Unnecessary parens after 'not' keyword (superfluous-parens)
+apps/reservas/validators.py:33:8: W0707: Consider explicitly re-raising using 'except Exception as exc' and 'raise ValidationError({'hora': f'El negocio no abre los {dia_semana}. Revisá los horarios disponibles.'}) from exc' (raise-missing-from)
+************* Module apps.reservas.models
+apps/reservas/models.py:20:0: C0115: Missing class docstring (missing-class-docstring)
+apps/reservas/models.py:28:0: C0115: Missing class docstring (missing-class-docstring)
+apps/reservas/models.py:35:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.reservas.serializers
+apps/reservas/serializers.py:33:0: C0301: Line too long (106/100) (line-too-long)
+apps/reservas/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/reservas/serializers.py:80:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reservas/serializers.py:83:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reservas/serializers.py:94:0: C0115: Missing class docstring (missing-class-docstring)
+apps/reservas/serializers.py:94:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarEstadoReservaSerializer' (abstract-method)
+apps/reservas/serializers.py:94:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarEstadoReservaSerializer' (abstract-method)
+************* Module apps.reservas.views
+apps/reservas/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/reservas/views.py:48:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reservas/views.py:49:8: C0415: Import outside toplevel (apps.configuracion.models.DiaSemana, apps.configuracion.models.HorarioNegocio) (import-outside-toplevel)
+apps/reservas/views.py:121:0: C0115: Missing class docstring (missing-class-docstring)
+apps/reservas/views.py:137:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reservas/views.py:9:0: W0611: Unused EsAdminOSupervisor imported from apps.usuarios.permissions (unused-import)
+************* Module apps.reservas.urls
+apps/reservas/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.reservas.migrations.0001_initial
+apps/reservas/migrations/0001_initial.py:21:0: C0301: Line too long (117/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:23:0: C0301: Line too long (103/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:24:0: C0301: Line too long (105/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:25:0: C0301: Line too long (108/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:26:0: C0301: Line too long (116/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:29:0: C0301: Line too long (109/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:30:0: C0301: Line too long (261/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:31:0: C0301: Line too long (217/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:33:0: C0301: Line too long (220/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:34:0: C0301: Line too long (185/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:35:0: C0301: Line too long (265/100) (line-too-long)
+apps/reservas/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/reservas/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/reservas/migrations/0001_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.pedidos.apps
+apps/pedidos/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/pedidos/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.pedidos.models
+apps/pedidos/models.py:19:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/models.py:24:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/models.py:34:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/models.py:41:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/models.py:133:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/models.py:166:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.pedidos.serializers
+apps/pedidos/serializers.py:3:0: C0301: Line too long (113/100) (line-too-long)
+apps/pedidos/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/pedidos/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/serializers.py:20:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/pedidos/serializers.py:24:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/serializers.py:104:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/pedidos/serializers.py:107:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/pedidos/serializers.py:128:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/serializers.py:128:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarEstadoPedidoSerializer' (abstract-method)
+apps/pedidos/serializers.py:128:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarEstadoPedidoSerializer' (abstract-method)
+************* Module apps.pedidos.views
+apps/pedidos/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/pedidos/views.py:48:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/pedidos/views.py:85:0: C0115: Missing class docstring (missing-class-docstring)
+apps/pedidos/views.py:100:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/pedidos/views.py:138:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/pedidos/views.py:9:0: W0611: Unused EstadoPedido imported from models (unused-import)
+apps/pedidos/views.py:9:0: W0611: Unused TipoPedido imported from models (unused-import)
+************* Module apps.pedidos.urls
+apps/pedidos/urls.py:7:0: C0301: Line too long (105/100) (line-too-long)
+apps/pedidos/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.pedidos.migrations.0001_initial
+apps/pedidos/migrations/0001_initial.py:22:0: C0301: Line too long (117/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:24:0: C0301: Line too long (103/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:25:0: C0301: Line too long (102/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:26:0: C0301: Line too long (104/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:28:0: C0301: Line too long (103/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:29:0: C0301: Line too long (153/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:30:0: C0301: Line too long (343/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:31:0: C0301: Line too long (121/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:32:0: C0301: Line too long (127/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:33:0: C0301: Line too long (225/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:34:0: C0301: Line too long (113/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:37:0: C0301: Line too long (213/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:38:0: C0301: Line too long (204/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:39:0: C0301: Line too long (212/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:40:0: C0301: Line too long (209/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:51:0: C0301: Line too long (117/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:53:0: C0301: Line too long (103/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:55:0: C0301: Line too long (122/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:57:0: C0301: Line too long (156/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:58:0: C0301: Line too long (157/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:59:0: C0301: Line too long (165/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:60:0: C0301: Line too long (173/100) (line-too-long)
+apps/pedidos/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/pedidos/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/pedidos/migrations/0001_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.catalogo.apps
+apps/catalogo/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/catalogo/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/apps.py:10:8: C0415: Import outside toplevel (apps.catalogo.signals) (import-outside-toplevel)
+apps/catalogo/apps.py:10:8: W0611: Unused import apps.catalogo.signals (unused-import)
+************* Module apps.catalogo.signals
+apps/catalogo/signals.py:13:0: C0116: Missing function or method docstring (missing-function-docstring)
+apps/catalogo/signals.py:13:28: W0613: Unused argument 'sender' (unused-argument)
+************* Module apps.catalogo.models
+apps/catalogo/models.py:19:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/models.py:64:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/models.py:145:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.catalogo.serializers
+apps/catalogo/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/catalogo/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/serializers.py:16:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/serializers.py:22:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/serializers.py:79:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/serializers.py:87:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/serializers.py:99:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/serializers.py:109:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.catalogo.views
+apps/catalogo/views.py:234:0: C0301: Line too long (113/100) (line-too-long)
+apps/catalogo/views.py:238:0: C0301: Line too long (105/100) (line-too-long)
+apps/catalogo/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/catalogo/views.py:38:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/views.py:57:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/views.py:67:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/views.py:113:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/views.py:177:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/views.py:187:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/views.py:197:0: C0115: Missing class docstring (missing-class-docstring)
+apps/catalogo/views.py:219:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/catalogo/views.py:220:8: C0415: Import outside toplevel (django.db.models.Prefetch) (import-outside-toplevel)
+apps/catalogo/views.py:7:0: W0611: Unused EsEmpleado imported from apps.usuarios.permissions (unused-import)
+apps/catalogo/views.py:8:0: W0611: Unused ItemCombo imported from models (unused-import)
+apps/catalogo/views.py:9:0: W0611: Unused ItemComboSerializer imported from serializers (unused-import)
+************* Module apps.catalogo.urls
+apps/catalogo/urls.py:10:0: C0301: Line too long (106/100) (line-too-long)
+apps/catalogo/urls.py:18:0: C0301: Line too long (103/100) (line-too-long)
+apps/catalogo/urls.py:19:0: C0301: Line too long (113/100) (line-too-long)
+apps/catalogo/urls.py:20:0: C0301: Line too long (131/100) (line-too-long)
+apps/catalogo/urls.py:21:0: C0301: Line too long (131/100) (line-too-long)
+apps/catalogo/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.catalogo.migrations.0001_initial
+apps/catalogo/migrations/0001_initial.py:20:0: C0301: Line too long (117/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:22:0: C0301: Line too long (103/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:25:0: C0301: Line too long (126/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:26:0: C0301: Line too long (147/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:28:0: C0301: Line too long (106/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:39:0: C0301: Line too long (117/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:41:0: C0301: Line too long (103/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:44:0: C0301: Line too long (122/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:45:0: C0301: Line too long (114/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:48:0: C0301: Line too long (102/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:49:0: C0301: Line too long (113/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:60:0: C0301: Line too long (117/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:62:0: C0301: Line too long (103/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:64:0: C0301: Line too long (125/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:76:0: C0301: Line too long (117/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:78:0: C0301: Line too long (103/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:81:0: C0301: Line too long (125/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:82:0: C0301: Line too long (130/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:83:0: C0301: Line too long (119/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:84:0: C0301: Line too long (157/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:86:0: C0301: Line too long (102/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:87:0: C0301: Line too long (106/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:88:0: C0301: Line too long (113/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:89:0: C0301: Line too long (171/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:90:0: C0301: Line too long (145/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:101:0: C0301: Line too long (117/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:102:0: C0301: Line too long (122/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:103:0: C0301: Line too long (116/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:105:0: C0301: Line too long (183/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:106:0: C0301: Line too long (176/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:117:0: C0301: Line too long (117/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:119:0: C0301: Line too long (103/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:121:0: C0301: Line too long (210/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:123:0: C0301: Line too long (168/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:134:0: C0301: Line too long (117/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:136:0: C0301: Line too long (133/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:137:0: C0301: Line too long (143/100) (line-too-long)
+apps/catalogo/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/catalogo/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/catalogo/migrations/0001_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.clientes.apps
+apps/clientes/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/clientes/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.clientes.admin
+apps/clientes/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/clientes/admin.py:1:0: W0611: Unused admin imported from django.contrib (unused-import)
+************* Module apps.clientes.models
+apps/clientes/models.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+apps/clientes/models.py:40:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.clientes.tests
+apps/clientes/tests.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/clientes/tests.py:1:0: W0611: Unused TestCase imported from django.test (unused-import)
+************* Module apps.clientes.serializers
+apps/clientes/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/clientes/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/clientes/serializers.py:18:0: C0115: Missing class docstring (missing-class-docstring)
+apps/clientes/serializers.py:35:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.clientes.views
+apps/clientes/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.clientes.urls
+apps/clientes/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.clientes.migrations.0001_initial
+apps/clientes/migrations/0001_initial.py:20:0: C0301: Line too long (117/100) (line-too-long)
+apps/clientes/migrations/0001_initial.py:22:0: C0301: Line too long (103/100) (line-too-long)
+apps/clientes/migrations/0001_initial.py:27:0: C0301: Line too long (107/100) (line-too-long)
+apps/clientes/migrations/0001_initial.py:28:0: C0301: Line too long (102/100) (line-too-long)
+apps/clientes/migrations/0001_initial.py:29:0: C0301: Line too long (114/100) (line-too-long)
+apps/clientes/migrations/0001_initial.py:32:0: C0301: Line too long (215/100) (line-too-long)
+apps/clientes/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/clientes/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/clientes/migrations/0001_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.reportes.apps
+apps/reportes/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/reportes/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.reportes.views
+apps/reportes/views.py:236:0: C0301: Line too long (108/100) (line-too-long)
+apps/reportes/views.py:242:0: C0301: Line too long (111/100) (line-too-long)
+apps/reportes/views.py:243:0: C0301: Line too long (101/100) (line-too-long)
+apps/reportes/views.py:414:0: C0301: Line too long (101/100) (line-too-long)
+apps/reportes/views.py:49:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:89:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:109:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:135:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:161:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:193:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:193:4: R0914: Too many local variables (20/15) (too-many-locals)
+apps/reportes/views.py:270:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:271:8: W0612: Unused variable 'desde' (unused-variable)
+apps/reportes/views.py:271:15: W0612: Unused variable 'hasta' (unused-variable)
+apps/reportes/views.py:290:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:319:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:320:8: C0415: Import outside toplevel (apps.inventario.models.MateriaPrima) (import-outside-toplevel)
+apps/reportes/views.py:361:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:361:4: R0914: Too many local variables (16/15) (too-many-locals)
+apps/reportes/views.py:426:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:461:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/reportes/views.py:461:4: R0914: Too many local variables (18/15) (too-many-locals)
+apps/reportes/views.py:463:8: C0415: Import outside toplevel (apps.eventos.models.Entrada, apps.eventos.models.EstadoEntrada, apps.eventos.models.Evento) (import-outside-toplevel)
+apps/reportes/views.py:462:8: W0612: Unused variable 'desde' (unused-variable)
+apps/reportes/views.py:462:15: W0612: Unused variable 'hasta' (unused-variable)
+apps/reportes/views.py:18:0: W0611: Unused MedioPago imported from apps.cajas.models (unused-import)
+apps/reportes/views.py:19:0: W0611: Unused Categoria imported from apps.catalogo.models (unused-import)
+apps/reportes/views.py:19:0: W0611: Unused Producto imported from apps.catalogo.models (unused-import)
+apps/reportes/views.py:21:0: W0611: Unused Mesa imported from apps.mesas.models (unused-import)
+apps/reportes/views.py:23:0: W0611: Unused EstadoReserva imported from apps.reservas.models (unused-import)
+************* Module apps.reportes.urls
+apps/reportes/urls.py:7:0: C0301: Line too long (105/100) (line-too-long)
+apps/reportes/urls.py:8:0: C0301: Line too long (108/100) (line-too-long)
+apps/reportes/urls.py:12:0: C0301: Line too long (102/100) (line-too-long)
+apps/reportes/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.eventos.apps
+apps/eventos/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/eventos/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.eventos.admin
+apps/eventos/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/eventos/admin.py:1:0: W0611: Unused admin imported from django.contrib (unused-import)
+************* Module apps.eventos.models
+apps/eventos/models.py:15:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/models.py:35:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/eventos/models.py:42:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/eventos/models.py:46:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/models.py:68:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/eventos/models.py:74:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/eventos/models.py:78:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/models.py:85:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/models.py:91:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.eventos.tests
+apps/eventos/tests.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/eventos/tests.py:1:0: W0611: Unused TestCase imported from django.test (unused-import)
+************* Module apps.eventos.serializers
+apps/eventos/serializers.py:92:0: C0301: Line too long (101/100) (line-too-long)
+apps/eventos/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/eventos/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/serializers.py:19:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/serializers.py:32:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/serializers.py:61:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/eventos/serializers.py:94:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/eventos/serializers.py:98:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/serializers.py:98:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'ValidarEntradaSerializer' (abstract-method)
+apps/eventos/serializers.py:98:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'ValidarEntradaSerializer' (abstract-method)
+apps/eventos/serializers.py:102:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/serializers.py:102:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarEstadoEntradaSerializer' (abstract-method)
+apps/eventos/serializers.py:102:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarEstadoEntradaSerializer' (abstract-method)
+************* Module apps.eventos.views
+apps/eventos/views.py:123:0: C0301: Line too long (105/100) (line-too-long)
+apps/eventos/views.py:148:0: C0301: Line too long (102/100) (line-too-long)
+apps/eventos/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/eventos/views.py:109:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/eventos/views.py:156:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.eventos.urls
+apps/eventos/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.eventos.migrations.0001_initial
+apps/eventos/migrations/0001_initial.py:21:0: C0301: Line too long (117/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:23:0: C0301: Line too long (103/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:26:0: C0301: Line too long (114/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:32:0: C0301: Line too long (102/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:43:0: C0301: Line too long (117/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:45:0: C0301: Line too long (106/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:46:0: C0301: Line too long (104/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:49:0: C0301: Line too long (165/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:60:0: C0301: Line too long (117/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:62:0: C0301: Line too long (103/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:63:0: C0301: Line too long (108/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:64:0: C0301: Line too long (107/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:65:0: C0301: Line too long (109/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:66:0: C0301: Line too long (236/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:67:0: C0301: Line too long (212/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:68:0: C0301: Line too long (129/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:69:0: C0301: Line too long (123/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:70:0: C0301: Line too long (105/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:71:0: C0301: Line too long (110/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:72:0: C0301: Line too long (205/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:73:0: C0301: Line too long (180/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:74:0: C0301: Line too long (214/100) (line-too-long)
+apps/eventos/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/eventos/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/eventos/migrations/0001_initial.py:9:0: C0115: Missing class docstring (missing-class-docstring)
+apps/eventos/migrations/0001_initial.py:6:0: C0411: standard import "uuid" should be placed before third party imports "django.conf.settings", "django.db.migrations", "django.db.models.deletion" (wrong-import-order)
+************* Module apps.auditoria.apps
+apps/auditoria/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/auditoria/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.auditoria.models
+apps/auditoria/models.py:52:0: C0301: Line too long (108/100) (line-too-long)
+apps/auditoria/models.py:10:0: C0115: Missing class docstring (missing-class-docstring)
+apps/auditoria/models.py:12:4: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.auditoria.serializers
+apps/auditoria/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/auditoria/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/auditoria/serializers.py:23:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.auditoria.utils
+apps/auditoria/utils.py:41:11: W0718: Catching too general exception Exception (broad-exception-caught)
+************* Module apps.auditoria.views
+apps/auditoria/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.auditoria.urls
+apps/auditoria/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.auditoria.migrations.0002_initial
+apps/auditoria/migrations/0002_initial.py:21:0: C0301: Line too long (194/100) (line-too-long)
+apps/auditoria/migrations/0002_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/auditoria/migrations/0002_initial.py:1:0: C0103: Module name "0002_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/auditoria/migrations/0002_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.auditoria.migrations.0001_initial
+apps/auditoria/migrations/0001_initial.py:17:0: C0301: Line too long (117/100) (line-too-long)
+apps/auditoria/migrations/0001_initial.py:19:0: C0301: Line too long (488/100) (line-too-long)
+apps/auditoria/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/auditoria/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/auditoria/migrations/0001_initial.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.usuarios.apps
+apps/usuarios/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/usuarios/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.usuarios.models
+apps/usuarios/models.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+apps/usuarios/models.py:67:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/usuarios/models.py:77:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.usuarios.serializers
+apps/usuarios/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/usuarios/serializers.py:7:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'TokenPersonalizadoSerializer' (abstract-method)
+apps/usuarios/serializers.py:7:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'TokenPersonalizadoSerializer' (abstract-method)
+apps/usuarios/serializers.py:54:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarContrasenaSerializer' (abstract-method)
+apps/usuarios/serializers.py:54:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'CambiarContrasenaSerializer' (abstract-method)
+************* Module apps.usuarios.views
+apps/usuarios/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/usuarios/views.py:52:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/usuarios/views.py:69:15: W0718: Catching too general exception Exception (broad-exception-caught)
+apps/usuarios/views.py:95:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.usuarios.permissions
+apps/usuarios/permissions.py:15:0: C0301: Line too long (109/100) (line-too-long)
+apps/usuarios/permissions.py:20:0: C0301: Line too long (106/100) (line-too-long)
+apps/usuarios/permissions.py:25:0: C0301: Line too long (102/100) (line-too-long)
+apps/usuarios/permissions.py:35:0: C0301: Line too long (102/100) (line-too-long)
+apps/usuarios/permissions.py:40:0: C0301: Line too long (103/100) (line-too-long)
+apps/usuarios/permissions.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+apps/usuarios/permissions.py:18:0: C0115: Missing class docstring (missing-class-docstring)
+apps/usuarios/permissions.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+apps/usuarios/permissions.py:28:0: C0115: Missing class docstring (missing-class-docstring)
+apps/usuarios/permissions.py:33:0: C0115: Missing class docstring (missing-class-docstring)
+apps/usuarios/permissions.py:38:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.usuarios.urls
+apps/usuarios/urls.py:14:0: C0301: Line too long (103/100) (line-too-long)
+apps/usuarios/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.usuarios.migrations.0001_initial
+apps/usuarios/migrations/0001_initial.py:21:0: C0301: Line too long (117/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:23:0: C0301: Line too long (103/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:24:0: C0301: Line too long (196/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:25:0: C0301: Line too long (329/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:26:0: C0301: Line too long (104/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:27:0: C0301: Line too long (102/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:28:0: C0301: Line too long (103/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:29:0: C0301: Line too long (165/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:30:0: C0301: Line too long (203/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:31:0: C0301: Line too long (117/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:32:0: C0301: Line too long (258/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:33:0: C0301: Line too long (140/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:34:0: C0301: Line too long (187/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:36:0: C0301: Line too long (124/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:38:0: C0301: Line too long (103/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:39:0: C0301: Line too long (266/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:40:0: C0301: Line too long (229/100) (line-too-long)
+apps/usuarios/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/usuarios/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/usuarios/migrations/0001_initial.py:9:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.cajas.apps
+apps/cajas/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/cajas/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.cajas.models
+apps/cajas/models.py:60:0: C0301: Line too long (118/100) (line-too-long)
+apps/cajas/models.py:163:0: C0301: Line too long (103/100) (line-too-long)
+apps/cajas/models.py:21:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/models.py:30:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/models.py:35:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/models.py:63:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cajas/models.py:70:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cajas/models.py:77:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cajas/models.py:79:8: C0415: Import outside toplevel (django.db.models.Case, django.db.models.When, django.db.models.DecimalField) (import-outside-toplevel)
+************* Module apps.cajas.serializers
+apps/cajas/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/cajas/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/serializers.py:25:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cajas/serializers.py:29:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/serializers.py:35:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/serializers.py:50:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/serializers.py:64:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'CobrarComandaSerializer' (abstract-method)
+apps/cajas/serializers.py:64:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'CobrarComandaSerializer' (abstract-method)
+apps/cajas/serializers.py:69:4: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/serializers.py:69:4: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'PagoItem' (abstract-method)
+apps/cajas/serializers.py:69:4: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'PagoItem' (abstract-method)
+apps/cajas/serializers.py:77:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cajas/serializers.py:83:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/serializers.py:91:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'ArqueoCajaSerializer' (abstract-method)
+apps/cajas/serializers.py:91:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'ArqueoCajaSerializer' (abstract-method)
+************* Module apps.cajas.views
+apps/cajas/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/cajas/views.py:34:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cajas/views.py:61:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cajas/views.py:119:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cajas/views.py:134:0: C0115: Missing class docstring (missing-class-docstring)
+apps/cajas/views.py:149:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.cajas.urls
+apps/cajas/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.cajas.migrations.0002_initial
+apps/cajas/migrations/0002_initial.py:22:0: C0301: Line too long (150/100) (line-too-long)
+apps/cajas/migrations/0002_initial.py:27:0: C0301: Line too long (141/100) (line-too-long)
+apps/cajas/migrations/0002_initial.py:32:0: C0301: Line too long (147/100) (line-too-long)
+apps/cajas/migrations/0002_initial.py:37:0: C0301: Line too long (141/100) (line-too-long)
+apps/cajas/migrations/0002_initial.py:42:0: C0301: Line too long (130/100) (line-too-long)
+apps/cajas/migrations/0002_initial.py:47:0: C0301: Line too long (155/100) (line-too-long)
+apps/cajas/migrations/0002_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/cajas/migrations/0002_initial.py:1:0: C0103: Module name "0002_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/cajas/migrations/0002_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.cajas.migrations.0001_initial
+apps/cajas/migrations/0001_initial.py:18:0: C0301: Line too long (117/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:20:0: C0301: Line too long (103/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:22:0: C0301: Line too long (129/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:23:0: C0301: Line too long (157/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:24:0: C0301: Line too long (115/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:25:0: C0301: Line too long (103/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:36:0: C0301: Line too long (117/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:37:0: C0301: Line too long (230/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:48:0: C0301: Line too long (117/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:50:0: C0301: Line too long (103/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:51:0: C0301: Line too long (134/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:52:0: C0301: Line too long (280/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:53:0: C0301: Line too long (102/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:54:0: C0301: Line too long (106/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:65:0: C0301: Line too long (117/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:67:0: C0301: Line too long (103/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:68:0: C0301: Line too long (260/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:69:0: C0301: Line too long (102/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:70:0: C0301: Line too long (117/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:71:0: C0301: Line too long (149/100) (line-too-long)
+apps/cajas/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/cajas/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/cajas/migrations/0001_initial.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.common.apps
+apps/common/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/common/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.common.utils
+apps/common/utils.py:44:4: C0415: Import outside toplevel (rest_framework.serializers) (import-outside-toplevel)
+************* Module apps.common.management.commands.poblar_inicial
+apps/common/management/commands/poblar_inicial.py:46:0: C0301: Line too long (105/100) (line-too-long)
+apps/common/management/commands/poblar_inicial.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+apps/common/management/commands/poblar_inicial.py:35:12: C0415: Import outside toplevel (apps.usuarios.models.Rol) (import-outside-toplevel)
+apps/common/management/commands/poblar_inicial.py:92:8: C0415: Import outside toplevel (apps.catalogo.models.Categoria) (import-outside-toplevel)
+************* Module apps.empleados.apps
+apps/empleados/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/empleados/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.empleados.admin
+apps/empleados/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/empleados/admin.py:1:0: W0611: Unused admin imported from django.contrib (unused-import)
+************* Module apps.empleados.models
+apps/empleados/models.py:29:0: C0301: Line too long (108/100) (line-too-long)
+apps/empleados/models.py:30:0: C0301: Line too long (109/100) (line-too-long)
+apps/empleados/models.py:51:0: C0301: Line too long (110/100) (line-too-long)
+apps/empleados/models.py:14:0: C0115: Missing class docstring (missing-class-docstring)
+apps/empleados/models.py:20:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.empleados.tests
+apps/empleados/tests.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/empleados/tests.py:1:0: W0611: Unused TestCase imported from django.test (unused-import)
+************* Module apps.empleados.serializers
+apps/empleados/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/empleados/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/empleados/serializers.py:19:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/empleados/serializers.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+apps/empleados/serializers.py:45:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.empleados.views
+apps/empleados/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.empleados.urls
+apps/empleados/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.empleados.migrations.0001_initial
+apps/empleados/migrations/0001_initial.py:20:0: C0301: Line too long (117/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:22:0: C0301: Line too long (103/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:23:0: C0301: Line too long (107/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:24:0: C0301: Line too long (102/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:25:0: C0301: Line too long (124/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:26:0: C0301: Line too long (125/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:27:0: C0301: Line too long (114/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:28:0: C0301: Line too long (108/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:29:0: C0301: Line too long (200/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:30:0: C0301: Line too long (141/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:32:0: C0301: Line too long (192/100) (line-too-long)
+apps/empleados/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/empleados/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/empleados/migrations/0001_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.facturacion.apps
+apps/facturacion/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/facturacion/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.facturacion.admin
+apps/facturacion/admin.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/facturacion/admin.py:1:0: W0611: Unused admin imported from django.contrib (unused-import)
+************* Module apps.facturacion.models
+apps/facturacion/models.py:24:0: C0115: Missing class docstring (missing-class-docstring)
+apps/facturacion/models.py:33:0: C0115: Missing class docstring (missing-class-docstring)
+apps/facturacion/models.py:152:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/facturacion/models.py:156:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/facturacion/models.py:160:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.facturacion.tests
+apps/facturacion/tests.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/facturacion/tests.py:1:0: W0611: Unused TestCase imported from django.test (unused-import)
+************* Module apps.facturacion.serializers
+apps/facturacion/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/facturacion/serializers.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+apps/facturacion/serializers.py:16:0: C0115: Missing class docstring (missing-class-docstring)
+apps/facturacion/serializers.py:40:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/facturacion/serializers.py:44:0: W0223: Method 'create' is abstract in class 'BaseSerializer' but is not overridden in child class 'EmitirComprobanteSerializer' (abstract-method)
+apps/facturacion/serializers.py:44:0: W0223: Method 'update' is abstract in class 'BaseSerializer' but is not overridden in child class 'EmitirComprobanteSerializer' (abstract-method)
+apps/facturacion/serializers.py:49:43: E1101: Instance of 'str' has no 'field' member (no-member)
+apps/facturacion/serializers.py:49:43: E1101: Instance of 'CharField' has no 'field' member (no-member)
+apps/facturacion/serializers.py:4:0: W0611: Unused EstadoComprobante imported from models (unused-import)
+************* Module apps.facturacion.views
+apps/facturacion/views.py:100:9: W0511: TODO v2: llamar a servicio AFIP para obtener CAE (fixme)
+apps/facturacion/views.py:49:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/facturacion/views.py:59:12: C0415: Import outside toplevel (apps.comandas.models.Comanda) (import-outside-toplevel)
+apps/facturacion/views.py:66:12: C0415: Import outside toplevel (apps.pedidos.models.Pedido) (import-outside-toplevel)
+************* Module apps.facturacion.urls
+apps/facturacion/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.facturacion.migrations.0001_initial
+apps/facturacion/migrations/0001_initial.py:22:0: C0301: Line too long (117/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:24:0: C0301: Line too long (103/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:25:0: C0301: Line too long (256/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:26:0: C0301: Line too long (258/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:27:0: C0301: Line too long (108/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:28:0: C0301: Line too long (117/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:29:0: C0301: Line too long (130/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:30:0: C0301: Line too long (113/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:31:0: C0301: Line too long (131/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:32:0: C0301: Line too long (124/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:33:0: C0301: Line too long (109/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:34:0: C0301: Line too long (113/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:36:0: C0301: Line too long (113/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:37:0: C0301: Line too long (116/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:38:0: C0301: Line too long (194/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:39:0: C0301: Line too long (215/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:40:0: C0301: Line too long (197/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:52:0: C0301: Line too long (117/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:54:0: C0301: Line too long (108/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:55:0: C0301: Line too long (127/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:56:0: C0301: Line too long (131/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:57:0: C0301: Line too long (176/100) (line-too-long)
+apps/facturacion/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/facturacion/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/facturacion/migrations/0001_initial.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.configuracion.apps
+apps/configuracion/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/configuracion/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.configuracion.models
+apps/configuracion/models.py:30:0: C0301: Line too long (106/100) (line-too-long)
+apps/configuracion/models.py:32:0: C0301: Line too long (121/100) (line-too-long)
+apps/configuracion/models.py:8:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.configuracion.serializers
+apps/configuracion/serializers.py:16:0: C0301: Line too long (101/100) (line-too-long)
+apps/configuracion/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/configuracion/serializers.py:5:0: C0115: Missing class docstring (missing-class-docstring)
+apps/configuracion/serializers.py:11:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.configuracion.views
+apps/configuracion/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/configuracion/views.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/configuracion/views.py:27:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/configuracion/views.py:1:0: W0611: Unused status imported from rest_framework (unused-import)
+************* Module apps.configuracion.urls
+apps/configuracion/urls.py:7:0: C0301: Line too long (105/100) (line-too-long)
+apps/configuracion/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.configuracion.migrations.0001_initial
+apps/configuracion/migrations/0001_initial.py:17:0: C0301: Line too long (117/100) (line-too-long)
+apps/configuracion/migrations/0001_initial.py:19:0: C0301: Line too long (108/100) (line-too-long)
+apps/configuracion/migrations/0001_initial.py:23:0: C0301: Line too long (102/100) (line-too-long)
+apps/configuracion/migrations/0001_initial.py:25:0: C0301: Line too long (122/100) (line-too-long)
+apps/configuracion/migrations/0001_initial.py:27:0: C0301: Line too long (137/100) (line-too-long)
+apps/configuracion/migrations/0001_initial.py:38:0: C0301: Line too long (117/100) (line-too-long)
+apps/configuracion/migrations/0001_initial.py:39:0: C0301: Line too long (262/100) (line-too-long)
+apps/configuracion/migrations/0001_initial.py:42:0: C0301: Line too long (186/100) (line-too-long)
+apps/configuracion/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/configuracion/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/configuracion/migrations/0001_initial.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.cocina.apps
+apps/cocina/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/cocina/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.cocina.serializers
+apps/cocina/serializers.py:28:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cocina/serializers.py:52:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cocina/serializers.py:55:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cocina/serializers.py:58:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cocina/serializers.py:66:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.cocina.views
+apps/cocina/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/cocina/views.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cocina/views.py:53:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/cocina/views.py:92:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.cocina.urls
+apps/cocina/urls.py:9:0: C0301: Line too long (109/100) (line-too-long)
+apps/cocina/urls.py:12:0: C0301: Line too long (106/100) (line-too-long)
+apps/cocina/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.mesas.apps
+apps/mesas/apps.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/mesas/apps.py:4:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.mesas.models
+apps/mesas/models.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+apps/mesas/models.py:32:0: C0115: Missing class docstring (missing-class-docstring)
+apps/mesas/models.py:39:0: C0115: Missing class docstring (missing-class-docstring)
+apps/mesas/models.py:78:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.mesas.serializers
+apps/mesas/serializers.py:45:0: C0305: Trailing newlines (trailing-newlines)
+apps/mesas/serializers.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/mesas/serializers.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+apps/mesas/serializers.py:13:4: C0116: Missing function or method docstring (missing-function-docstring)
+apps/mesas/serializers.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.mesas.utils
+apps/mesas/utils.py:17:4: C0415: Import outside toplevel (apps.comandas.models.Comanda, apps.comandas.models.EstadoComanda) (import-outside-toplevel)
+************* Module apps.mesas.views
+apps/mesas/views.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/mesas/views.py:19:0: C0115: Missing class docstring (missing-class-docstring)
+apps/mesas/views.py:29:0: C0115: Missing class docstring (missing-class-docstring)
+apps/mesas/views.py:80:0: C0115: Missing class docstring (missing-class-docstring)
+apps/mesas/views.py:128:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module apps.mesas.urls
+apps/mesas/urls.py:10:0: C0301: Line too long (104/100) (line-too-long)
+apps/mesas/urls.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module apps.mesas.migrations.0001_initial
+apps/mesas/migrations/0001_initial.py:18:0: C0301: Line too long (117/100) (line-too-long)
+apps/mesas/migrations/0001_initial.py:20:0: C0301: Line too long (103/100) (line-too-long)
+apps/mesas/migrations/0001_initial.py:35:0: C0301: Line too long (117/100) (line-too-long)
+apps/mesas/migrations/0001_initial.py:37:0: C0301: Line too long (103/100) (line-too-long)
+apps/mesas/migrations/0001_initial.py:39:0: C0301: Line too long (152/100) (line-too-long)
+apps/mesas/migrations/0001_initial.py:40:0: C0301: Line too long (112/100) (line-too-long)
+apps/mesas/migrations/0001_initial.py:41:0: C0301: Line too long (206/100) (line-too-long)
+apps/mesas/migrations/0001_initial.py:45:0: C0301: Line too long (164/100) (line-too-long)
+apps/mesas/migrations/0001_initial.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+apps/mesas/migrations/0001_initial.py:1:0: C0103: Module name "0001_initial" doesn't conform to snake_case naming style (invalid-name)
+apps/mesas/migrations/0001_initial.py:7:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module apps.mesas.migrations.__init__
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.catalogo.migrations.0001_initial:[7:17]
+==apps.clientes.migrations.0001_initial:[7:17]
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel( (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.empleados.migrations.0001_initial:[7:17]
+==apps.eventos.migrations.0001_initial:[8:18]
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel( (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.cocina.serializers:[14:21]
+==apps.comandas.serializers:[9:16]
+    estado_cocina_display = serializers.CharField(
+        source="get_estado_cocina_display", read_only=True
+    )
+
+    class Meta:
+        model = ItemComanda
+        fields = ( (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.comandas.migrations.0001_initial:[40:46]
+==apps.pedidos.migrations.0001_initial:[49:55]
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('creado_en', models.DateTimeField(auto_now_add=True, verbose_name='Creado en')),
+                ('actualizado_en', models.DateTimeField(auto_now=True, verbose_name='Actualizado en')),
+                ('cantidad', models.PositiveSmallIntegerField(default=1, verbose_name='Cantidad')),
+                ('precio_unitario', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Precio unitario')), (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.catalogo.migrations.0001_initial:[18:24]
+==apps.mesas.migrations.0001_initial:[16:22]
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('creado_en', models.DateTimeField(auto_now_add=True, verbose_name='Creado en')),
+                ('actualizado_en', models.DateTimeField(auto_now=True, verbose_name='Actualizado en')),
+                ('nombre', models.CharField(max_length=80, verbose_name='Nombre')),
+                ('descripcion', models.TextField(blank=True, verbose_name='Descripción')), (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.auditoria.migrations.0001_initial:[5:14]
+==apps.cajas.migrations.0001_initial:[6:15]
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+    ]
+
+    operations = [
+        migrations.CreateModel( (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.configuracion.migrations.0001_initial:[5:14]
+==apps.mesas.migrations.0001_initial:[6:15]
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+    ]
+
+    operations = [
+        migrations.CreateModel( (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.cocina.views:[89:97]
+==apps.comandas.views:[130:138]
+    permission_classes = [IsAuthenticated, EsEmpleado]
+
+    def post(self, request, pk):
+        try:
+            comanda = Comanda.objects.get(pk=pk)
+        except Comanda.DoesNotExist:
+            return Response({"detalle": "Comanda no encontrada."}, status=404)
+ (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.inventario.migrations.0001_initial:[7:14]
+==apps.pedidos.migrations.0001_initial:[7:14]
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('catalogo', '0001_initial'), (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.auditoria.models:[25:30]
+==apps.reservas.models:[36:41]
+    usuario = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True, (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.catalogo.migrations.0001_initial:[18:23]
+==apps.clientes.migrations.0001_initial:[18:23]
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('creado_en', models.DateTimeField(auto_now_add=True, verbose_name='Creado en')),
+                ('actualizado_en', models.DateTimeField(auto_now=True, verbose_name='Actualizado en')),
+                ('nombre', models.CharField(max_length=80, verbose_name='Nombre')), (duplicate-code)
+apps/mesas/migrations/__init__.py:1:0: R0801: Similar lines in 2 files
+==apps.catalogo.migrations.0001_initial:[58:63]
+==apps.mesas.migrations.0001_initial:[16:21]
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('creado_en', models.DateTimeField(auto_now_add=True, verbose_name='Creado en')),
+                ('actualizado_en', models.DateTimeField(auto_now=True, verbose_name='Actualizado en')),
+                ('nombre', models.CharField(max_length=80, verbose_name='Nombre')), (duplicate-code)
+
+-----------------------------------
+Your code has been rated at 7.51/10
+

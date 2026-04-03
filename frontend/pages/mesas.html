@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesas — Backyard POS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    .ubicacion-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+    .ubicacion-tabs::-webkit-scrollbar { display: none; }
+
+    .ubicacion-tab {
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      white-space: nowrap;
+      transition: all .15s;
+    }
+    .ubicacion-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .ubicacion-tab.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    .leyenda {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .leyenda-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .leyenda-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    /* modal acciones de mesa */
+    .accion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .accion-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .accion-btn:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+    .accion-btn .accion-icon { font-size: 24px; }
+
+    /* panel comanda inline */
+    .comanda-item-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .comanda-item-row:last-child { border-bottom: none; }
+    .ci-qty  { font-weight: 800; min-width: 28px; color: var(--accent); }
+    .ci-name { flex: 1; }
+    .ci-price { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .ci-del  {
+      background: none; border: none; color: var(--text-muted); cursor: pointer;
+      font-size: 15px; padding: 2px 5px; border-radius: 4px;
+      transition: color .12s, background .12s;
+    }
+    .ci-del:hover { color: #ef4444; background: rgba(239,68,68,.12); }
+
+    .total-line {
+      display: flex; justify-content: space-between;
+      padding: 10px 0 4px;
+      font-weight: 800; font-size: 16px;
+      border-top: 2px solid var(--border);
+      margin-top: 6px;
+      color: var(--accent);
+    }
+
+    /* catálogo inline */
+    .cat-busqueda { position: relative; margin-bottom: 10px; }
+    .cat-busqueda input {
+      width: 100%; background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text-primary); padding: 8px 12px 8px 34px;
+      font-size: 13px; font-family: var(--font-main); outline: none;
+    }
+    .cat-busqueda input:focus { border-color: var(--accent); }
+    .cat-busqueda-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: .5; font-size:14px; }
+
+    .mini-cat-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 10px; }
+    .mini-cat-tabs::-webkit-scrollbar { display: none; }
+    .mini-cat-tab {
+      padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+      cursor: pointer; border: 1px solid var(--border); background: var(--bg-elevated);
+      color: var(--text-secondary); white-space: nowrap; transition: all .12s;
+    }
+    .mini-cat-tab.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    .mini-productos { display: flex; flex-direction: column; gap: 4px; max-height: 300px; overflow-y: auto; }
+    .mini-prod-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 12px; background: var(--bg-elevated); border-radius: 8px;
+      cursor: pointer; transition: background .12s; gap: 10px;
+    }
+    .mini-prod-row:hover { background: var(--bg-hover); }
+    .mini-prod-nombre { font-size: 13px; font-weight: 600; flex: 1; }
+    .mini-prod-precio { font-size: 12px; color: var(--accent); font-weight: 700; white-space: nowrap; }
+    .mini-prod-add {
+      width: 26px; height: 26px; border-radius: 6px; background: var(--accent);
+      color: #000; font-size: 18px; font-weight: 800; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+
+    /* cobro inline */
+    .medio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .medio-opt {
+      padding: 12px 8px; background: var(--bg-elevated); border: 2px solid var(--border);
+      border-radius: 10px; color: var(--text-primary); font-size: 12px; font-weight: 600;
+      cursor: pointer; text-align: center; transition: all .15s;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .medio-opt .mo-icon { font-size: 20px; }
+    .medio-opt:hover, .medio-opt.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  </style>
+</head>
+<body>
+<script src="http://localhost/assets/js/api.js?v=2"></script>
+<script>
+// ---- Guard ----
+requireLogin();
+
+// ---- Estado ----
+let ubicaciones = [];
+let todasLasMesas = [];
+let ubicacionActiva = null;
+let intervalId = null;
+
+// ---- Init ----
+renderLayout({ title: 'Mesas', activeLink: 'mesas' });
+document.getElementById('topbar-extra').innerHTML = `
+  <button class="btn-pos secondary sm" onclick="cargarMesas()" title="Actualizar">🔄 Actualizar</button>
+`;
+
+iniciar();
+
+async function iniciar() {
+  await cargarUbicaciones();
+  await cargarMesas();
+  // Auto-refresh cada 30s
+  intervalId = setInterval(cargarMesas, 30000);
+}
+
+async function cargarUbicaciones() {
+  try {
+    const data = await MesasAPI.ubicaciones();
+    ubicaciones = data.results || data;
+    renderUbicaciones();
+  } catch (e) {
+    UI.toast('Error al cargar ubicaciones', 'error');
+  }
+}
+
+async function cargarMesas(forzarFresco = false) {
+  try {
+    const params = {};
+    if (ubicacionActiva) params.ubicacion = ubicacionActiva;
+    const data = await requestWithCache('GET', '/mesas/', { 
+      params,
+      cacheTTL: 30, // cache 30 segundos
+      bypassCache: forzarFresco, // forzar datos frescos si se pasa true
+    });
+    todasLasMesas = (data.results || data || []).slice().sort((a, b) => {
+      const na = Number(a.numero);
+      const nb = Number(b.numero);
+      if (!Number.isNaN(na) && !Number.isNaN(nb)) return na - nb;
+      return String(a.numero).localeCompare(String(b.numero), undefined, { numeric: true });
+    });
+    renderMesas();
+    actualizarContadores();
+  } catch (e) {
+    UI.toast('Error al cargar mesas (usando datos en caché si existen)', 'warning');
+    console.error('cargarMesas error:', e);
+  }
+}
+
+function renderUbicaciones() {
+  const area = document.getElementById('content-area');
+
+  area.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div class="ubicacion-tabs" id="ubicacion-tabs">
+          <button class="ubicacion-tab active" onclick="filtrarUbicacion(null, this)">Todas</button>
+          ${ubicaciones.map(u => `
+            <button class="ubicacion-tab" onclick="filtrarUbicacion(${u.id}, this)">${u.nombre}</button>
+          `).join('')}
+        </div>
+        <div class="leyenda">
+          <div class="leyenda-item"><div class="leyenda-dot" style="background:var(--mesa-libre)"></div>Libre</div>
+          <div class="leyenda-item"><div class="leyenda-dot" style="background:var(--mesa-ocupada)"></div>Ocupada</div>
+          <div class="leyenda-item"><div class="leyenda-dot" style="background:var(--mesa-reservada)"></div>Reservada</div>
+          <div class="leyenda-item"><div class="leyenda-dot" style="background:var(--mesa-cuenta)"></div>Pidiendo cuenta</div>
+          <div class="leyenda-item"><div class="leyenda-dot" style="background:var(--mesa-sucia)"></div>Sucia</div>
+        </div>
+      </div>
+
+      <!-- Resumen rápido -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;" id="resumen-mesas">
+      </div>
+
+      <!-- Grid de mesas -->
+      <div class="mesas-grid" id="mesas-grid">
+        <div class="empty-state">
+          <div class="spinner-pos" style="width:32px;height:32px;margin:0 auto;"></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function filtrarUbicacion(id, btn) {
+  ubicacionActiva = id;
+  document.querySelectorAll('.ubicacion-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  cargarMesas();
+}
+
+function actualizarContadores() {
+  const estados = { libre: 0, ocupada: 0, reservada: 0, cuenta: 0, sucia: 0, bloqueada: 0 };
+  todasLasMesas.forEach(m => { if (estados[m.estado] !== undefined) estados[m.estado]++; });
+
+  document.getElementById('resumen-mesas').innerHTML = [
+    { label: 'Libres',    val: estados.libre,    color: 'var(--mesa-libre)' },
+    { label: 'Ocupadas',  val: estados.ocupada,  color: 'var(--mesa-ocupada)' },
+    { label: 'Reservadas',val: estados.reservada,color: 'var(--mesa-reservada)' },
+    { label: 'Cuenta',    val: estados.cuenta,   color: 'var(--mesa-cuenta)' },
+    { label: 'Sucias',    val: estados.sucia,    color: 'var(--mesa-sucia)' },
+  ].map(s => `
+    <div class="stat-card" style="padding:12px;text-align:center;">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value" style="font-size:22px;color:${s.color}">${s.val}</div>
+    </div>
+  `).join('');
+}
+
+function renderMesas() {
+  const grid = document.getElementById('mesas-grid');
+  if (!grid) return;
+
+  if (!todasLasMesas.length) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1;">
+        <div class="empty-state-icon">🪑</div>
+        <div class="empty-state-title">Sin mesas configuradas</div>
+        <div class="empty-state-sub">Configurá las mesas desde el panel de administración</div>
+      </div>
+    `;
+    return;
+  }
+
+  const estadoLabels = {
+    libre: 'Libre', ocupada: 'Ocupada', reservada: 'Reservada',
+    cuenta: 'Cuenta', sucia: 'Sucia', bloqueada: 'Bloqueada',
+  };
+
+  grid.innerHTML = todasLasMesas.map(m => {
+    const estado = m.estado || 'libre';
+    const label  = estadoLabels[estado] || estado;
+    const tiempo = m.comanda_actual?.creado_en ? UI.tiempoDesde(m.comanda_actual.creado_en) : '';
+    const mozo   = m.mozo_nombre || '';
+
+    return `
+      <div class="mesa-card ${estado}" onclick="abrirAccionesMesa(${m.id})" title="Mesa ${m.numero}">
+        <div class="mesa-numero">${m.numero}</div>
+        <div class="mesa-capacidad">👤 ${m.capacidad}</div>
+        <div class="mesa-estado-label">${label}</div>
+        ${tiempo ? `<div class="mesa-tiempo">⏱ ${tiempo}</div>` : ''}
+        ${mozo   ? `<div class="mesa-mozo">${mozo}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+// ============================================================
+// Estado del panel de mesa
+// ============================================================
+let mesaPanel = { mesaId: null, comanda: null, catalogoCats: [], catalogoProds: [], catActiva: null, busqueda: '', medioSeleccionado: null };
+
+// ============================================================
+// Abrir panel de mesa
+// ============================================================
+async function abrirAccionesMesa(mesaId) {
+  const mesa = todasLasMesas.find(m => m.id === mesaId);
+  if (!mesa) return;
+
+  mesaPanel = { mesaId, comanda: null, catalogoCats: [], catalogoProds: [], catActiva: null, busqueda: '', medioSeleccionado: null };
+
+  const estado = mesa.estado || 'LIBRE';
+  const modal = document.getElementById('modal-container');
+
+  // Esqueleto del modal
+  modal.innerHTML = `
+    <div class="modal-pos-backdrop" onclick="cerrarModal(event)">
+      <div class="modal-pos" style="max-width:460px;" onclick="event.stopPropagation()">
+        <div class="modal-pos-header" id="mp-header">
+          <span>Mesa ${mesa.numero} — <span class="badge-pos ${estado.toLowerCase()}">${estado}</span></span>
+          <button class="btn-pos ghost icon-only" onclick="cerrarModal()">✕</button>
+        </div>
+        <div class="modal-pos-body" id="mp-body" style="min-height:120px;">
+          <div style="text-align:center;padding:30px;"><div class="spinner-pos" style="width:28px;height:28px;margin:0 auto;"></div></div>
+        </div>
+        <div class="modal-pos-footer" id="mp-footer" style="display:none;"></div>
+      </div>
+    </div>
+  `;
+
+  // Si hay comanda activa, cargarla; si no, ir directo a acciones
+  if ((estado === 'ocupada' || estado === 'cuenta') && mesa.comanda_actual?.id) {
+    try {
+      mesaPanel.comanda = await ComandasAPI.detalle(mesa.comanda_actual.id);
+    } catch {}
+    renderPanelComanda(mesa);
+  } else {
+    await renderPanelAcciones(mesa);
+  }
+}
+
+async function cargarComandaMesa(mesa) {
+  if (mesaPanel.comanda?.id === mesa.comanda_actual?.id) return;
+  if (!mesa.comanda_actual?.id) return;
+
+  try {
+    mesaPanel.comanda = await ComandasAPI.detalle(mesa.comanda_actual.id);
+  } catch (e) {
+    UI.toast('No se pudo cargar la comanda de esta mesa', 'error');
+  }
+}
+
+// ---- Vista: acciones simples (mesa libre/sucia/etc.) ----
+async function renderPanelAcciones(mesa) {
+  const user = Auth.getUser();
+  const estado = mesa.estado || 'LIBRE';
+  const rol = user?.rol?.toLowerCase();
+  const body = document.getElementById('mp-body');
+
+  // Si la mesa tiene comanda, cargarla primero
+  if (mesa.comanda_actual?.id) {
+    await cargarComandaMesa(mesa);
+  }
+
+  const acciones = [];
+
+  // Abrir comanda: mozo, cajero, admin, supervisor
+  if ((estado === 'libre' || estado === 'sucia') && ['administrador','supervisor','mozo','cajero'].includes(rol)) {
+    acciones.push({ icon: '🧾', label: 'Abrir comanda', keepModal: true, fn: () => abrirComanda(mesa.id) });
+  }
+
+  // Mesa ocupada: cargar comanda o agregar/cobrar
+  if (estado === 'ocupada' && ['administrador','supervisor','mozo','cajero'].includes(rol)) {
+    if (mesa.comanda_actual?.id) {
+      // Ya tiene comanda: mostrar agregar y cobrar
+      acciones.push({ icon: '➕', label: 'Agregar productos', keepModal: true, fn: async () => { await cargarComandaMesa(mesa); renderPanelCatalogo(); } });
+      acciones.push({ icon: '💳', label: 'Cobrar', keepModal: true, fn: async () => { await cargarComandaMesa(mesa); renderPanelCobro(); } });
+    } else {
+      // No tiene comanda: crear una nueva
+      acciones.push({ 
+        icon: '📋', 
+        label: 'Cargar comanda', 
+        keepModal: true, 
+        fn: () => abrirComanda(mesa.id)
+      });
+    }
+  }
+
+  // Cambios de estado: admin, supervisor, mozo y cajero (pueden marcar libre/sucia)
+  // Solo mostrar estos botones si la mesa NO está ocupada
+  const puedeEstado = ['administrador','supervisor','mozo'].includes(rol);
+  const puedeLimpiar = puedeEstado || rol === 'cajero';
+
+  if (estado !== 'ocupada') {
+    if (puedeLimpiar) {
+      if (estado !== 'libre')  acciones.push({ icon: '✅', label: 'Marcar libre', fn: () => cambiarEstadoMesa(mesa.id, 'libre') });
+      if (estado !== 'sucia')  acciones.push({ icon: '🧹', label: 'Marcar sucia', fn: () => cambiarEstadoMesa(mesa.id, 'sucia') });
+    }
+    if (puedeEstado) {
+      if (estado !== 'bloqueada') acciones.push({ icon: '🔒', label: 'Bloquear', fn: () => cambiarEstadoMesa(mesa.id, 'bloqueada') });
+    }
+  }
+
+  const comanda = mesaPanel.comanda;
+  const itemsHtml = comanda ? (() => {
+    const items = (comanda.items || []).filter(i => !i.cancelado);
+    if (!items.length) return '';
+    const total = items.reduce((s, i) => s + parseFloat(i.subtotal || 0), 0);
+    return `
+      <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border-color);">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:bold;">Productos cargados:</div>
+        ${items.map(it => `
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:4px 0;">
+            <span>${it.cantidad}× ${it.producto_nombre}</span>
+            <span style="color:var(--text-secondary);">${UI.moneda(it.subtotal)}</span>
+          </div>
+        `).join('')}
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:bold;color:var(--text-secondary);margin-top:8px;">
+          <span>Total:</span>
+          <span>${UI.moneda(total)}</span>
+        </div>
+      </div>
+    `;
+  })() : '';
+
+  body.innerHTML = `
+    <div style="margin-bottom:14px;font-size:13px;color:var(--text-secondary);">
+      ${mesa.nombre ? `<b>${mesa.nombre}</b> · ` : ''}Capacidad: ${mesa.capacidad}${mesa.ubicacion_nombre ? ` · ${mesa.ubicacion_nombre}` : ''}
+    </div>
+    ${itemsHtml}
+    ${acciones.length ? `
+      <div class="accion-grid">
+        ${acciones.map((a, i) => `<button class="accion-btn" id="mp-accion-${i}"><span class="accion-icon">${a.icon}</span><span>${a.label}</span></button>`).join('')}
+      </div>` : `<p style="text-align:center;color:var(--text-muted);padding:20px 0;">Sin acciones disponibles</p>`}
+  `;
+
+  acciones.forEach((a, i) => {
+    document.getElementById(`mp-accion-${i}`)?.addEventListener('click', async () => {
+      if (!a.keepModal) cerrarModal();
+      await a.fn();
+    });
+  });
+}
+
+// ---- Vista: panel de comanda activa ----
+function renderPanelComanda(mesa) {
+  const user = Auth.getUser();
+  const rol = user?.rol?.toLowerCase();
+  const comanda = mesaPanel.comanda;
+  const body = document.getElementById('mp-body');
+  const footer = document.getElementById('mp-footer');
+
+  if (!comanda) {
+    renderPanelAcciones(mesa).catch(e => console.error('Error al renderizar acciones:', e));
+    return;
+  }
+
+  const items = (comanda.items || []).filter(i => !i.cancelado);
+  const total = items.reduce((s, i) => s + parseFloat(i.subtotal || 0), 0);
+  const cerrada = ['cerrada','pagada'].includes(comanda.estado);
+
+  body.innerHTML = `
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;display:flex;gap:12px;flex-wrap:wrap;">
+      <span>Comanda #${comanda.numero || comanda.id}</span>
+      <span>${UI.fechaHora(comanda.creado_en)}</span>
+      ${comanda.mozo_nombre ? `<span>Mozo: ${comanda.mozo_nombre}</span>` : ''}
+    </div>
+
+    <div id="mp-items">
+      ${!items.length ? `<p style="text-align:center;color:var(--text-muted);padding:14px 0;">Comanda vacía</p>` :
+        items.map(it => `
+          <div class="comanda-item-row">
+            <span class="ci-qty">${it.cantidad}×</span>
+            <span class="ci-name">${it.producto_nombre}${it.observaciones ? `<br><span style="font-size:10px;color:var(--text-muted);font-style:italic;">${it.observaciones}</span>` : ''}</span>
+            <span class="ci-price">${UI.moneda(it.subtotal)}</span>
+            ${!cerrada ? `<button class="ci-del" onclick="quitarItemMesa(${it.id})" title="Quitar">✕</button>` : ''}
+          </div>`).join('')}
+    </div>
+
+    ${items.length ? `<div class="total-line"><span>TOTAL</span><span>${UI.moneda(total)}</span></div>` : ''}
+  `;
+
+  if (!cerrada) {
+    footer.style.display = 'flex';
+    footer.style.gap = '8px';
+    footer.style.flexWrap = 'wrap';
+    footer.innerHTML = `
+      ${['administrador','supervisor','mozo','cajero'].includes(rol) ? `
+        <button class="btn-pos primary" style="flex:1;" onclick="renderPanelCatalogo()">➕ Agregar</button>` : ''}
+      ${['administrador','supervisor','cajero'].includes(rol) ? `
+        <button class="btn-pos success" style="flex:1;" onclick="renderPanelCobro()">💳 Cobrar</button>` : ''}
+      <button class="btn-pos ghost" onclick="irComanda(${comanda.id})">📋 Ver completa</button>
+    `;
+  } else {
+    footer.style.display = 'flex';
+    footer.innerHTML = `<button class="btn-pos ghost full" onclick="cerrarModal()">Cerrar</button>`;
+  }
+}
+
+// ---- Vista: catálogo inline ----
+async function renderPanelCatalogo() {
+  const body = document.getElementById('mp-body');
+  const footer = document.getElementById('mp-footer');
+
+  body.innerHTML = `<div style="text-align:center;padding:30px;"><div class="spinner-pos" style="width:24px;height:24px;margin:0 auto;"></div></div>`;
+  footer.innerHTML = `<button class="btn-pos ghost" onclick="volverPanelComanda()">← Volver</button>`;
+
+  if (!mesaPanel.catalogoCats.length) {
+    try {
+      const [cats, prods] = await Promise.all([CatalogoAPI.categorias(), CatalogoAPI.productos({ disponible: true })]);
+      mesaPanel.catalogoCats = cats.results || cats;
+      mesaPanel.catalogoProds = prods.results || prods;
+    } catch {
+      UI.toast('Error al cargar catálogo', 'error');
+    }
+  }
+
+  _renderCatalogoBody();
+}
+
+function _renderCatalogoBody() {
+  const body = document.getElementById('mp-body');
+  const { catalogoCats, catalogoProds, catActiva, busqueda } = mesaPanel;
+
+  let prods = catalogoProds;
+  if (catActiva) prods = prods.filter(p => p.categoria === catActiva || p.categoria_id === catActiva);
+  if (busqueda) prods = prods.filter(p => p.nombre.toLowerCase().includes(busqueda.toLowerCase()));
+
+  body.innerHTML = `
+    <div class="cat-busqueda">
+      <span class="cat-busqueda-icon">🔍</span>
+      <input type="text" placeholder="Buscar producto..." value="${mesaPanel.busqueda}"
+             oninput="mesaPanel.busqueda=this.value;_renderCatalogoBody()">
+    </div>
+    <div class="mini-cat-tabs">
+      <button class="mini-cat-tab ${!catActiva ? 'active' : ''}" onclick="mesaPanel.catActiva=null;_renderCatalogoBody()">Todos</button>
+      ${catalogoCats.map(c => `
+        <button class="mini-cat-tab ${catActiva===c.id ? 'active' : ''}"
+                onclick="mesaPanel.catActiva=${c.id};_renderCatalogoBody()">${c.nombre}</button>
+      `).join('')}
+    </div>
+    <div class="mini-productos">
+      ${!prods.length ? `<p style="text-align:center;color:var(--text-muted);padding:20px 0;">Sin resultados</p>` :
+        prods.map(p => `
+          <div class="mini-prod-row" onclick="agregarProductoMesa(${p.id}, '${p.nombre.replace(/'/g,"\\'")}')">
+            <span class="mini-prod-nombre">${p.nombre}</span>
+            <span class="mini-prod-precio">${UI.moneda(p.precio_venta)}</span>
+            <span class="mini-prod-add">+</span>
+          </div>`).join('')}
+    </div>
+  `;
+}
+
+async function agregarProductoMesa(productoId, nombre) {
+  try {
+    await ComandasAPI.agregarItem(mesaPanel.comanda.id, { producto: productoId, cantidad: 1 });
+    UI.toast(`${nombre} agregado`, 'success', 1500);
+    mesaPanel.comanda = await ComandasAPI.detalle(mesaPanel.comanda.id);
+  } catch (e) {
+    UI.toast(e.message || 'Error al agregar producto', 'error');
+  }
+}
+
+async function quitarItemMesa(itemId) {
+  try {
+    await ComandasAPI.cancelarItem(mesaPanel.comanda.id, itemId);
+    mesaPanel.comanda = await ComandasAPI.detalle(mesaPanel.comanda.id);
+    const mesa = todasLasMesas.find(m => m.id === mesaPanel.mesaId);
+    if (mesa) renderPanelComanda(mesa);
+  } catch (e) {
+    UI.toast(e.message || 'Error al quitar ítem', 'error');
+  }
+}
+
+async function volverPanelComanda() {
+  const mesa = todasLasMesas.find(m => m.id === mesaPanel.mesaId);
+  if (mesa) {
+    try { mesaPanel.comanda = await ComandasAPI.detalle(mesaPanel.comanda.id); } catch {}
+    renderPanelComanda(mesa);
+    await cargarMesas();
+  }
+}
+
+// ---- Vista: cobro inline ----
+function renderPanelCobro() {
+  const comanda = mesaPanel.comanda;
+  const items = (comanda.items || []).filter(i => !i.cancelado);
+  const total = items.reduce((s, i) => s + parseFloat(i.subtotal || 0), 0);
+  const body  = document.getElementById('mp-body');
+  const footer = document.getElementById('mp-footer');
+  mesaPanel.medioSeleccionado = null;
+
+  const medios = [
+    { key: 'efectivo',      icon: '💵', label: 'Efectivo' },
+    { key: 'debito',        icon: '💳', label: 'Débito' },
+    { key: 'credito',       icon: '💳', label: 'Crédito' },
+    { key: 'transferencia', icon: '🏦', label: 'Transferencia' },
+    { key: 'qr',            icon: '📱', label: 'QR / MP' },
+  ];
+
+  body.innerHTML = `
+    <div style="font-size:28px;font-weight:900;color:var(--accent);text-align:center;margin-bottom:16px;font-variant-numeric:tabular-nums;">
+      ${UI.moneda(total)}
+    </div>
+    <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">Medio de pago</div>
+    <div class="medio-grid">
+      ${medios.map(m => `
+        <button class="medio-opt" id="mop-${m.key}" onclick="seleccionarMedioCobro('${m.key}')">
+          <span class="mo-icon">${m.icon}</span>${m.label}
+        </button>`).join('')}
+    </div>
+    <div class="form-pos">
+      <div class="form-group" id="mp-efectivo-wrap" style="display:none;">
+        <label>Monto recibido</label>
+        <input type="number" id="mp-recibido" placeholder="0.00" min="0" step="0.01" oninput="calcularVueltoMesa(${total})">
+        <div id="mp-vuelto" style="margin-top:5px;font-size:13px;font-weight:600;"></div>
+      </div>
+      <div class="form-group">
+        <label>Propina (opcional)</label>
+        <input type="number" id="mp-propina" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Comprobante DGI</label>
+        <select id="mp-tipo-cfe" onchange="toggleCfeFieldsMesa()">
+          <option value="101">e-Ticket (Consumidor Final)</option>
+          <option value="111">e-Factura (Empresa)</option>
+        </select>
+      </div>
+      <div class="form-group" id="mp-cfe-doc-wrap">
+        <label>RUT / CI <span style="font-size:11px;color:#aaa;">(Opcional para e-Ticket)</span></label>
+        <input type="text" id="mp-documento" placeholder="Ej: 21XXXXXX001X">
+      </div>
+      <div class="form-group" id="mp-cfe-razon-wrap" style="display:none;">
+        <label>Razón Social <span style="font-size:11px;color:#aaa;">(Requerido para e-Factura)</span></label>
+        <input type="text" id="mp-razon-social" placeholder="Nombre de empresa">
+      </div>
+    </div>
+  `;
+
+  footer.style.display = 'flex';
+  footer.style.gap = '8px';
+  footer.innerHTML = `
+    <button class="btn-pos ghost" onclick="renderPanelComanda(todasLasMesas.find(m=>m.id===mesaPanel.mesaId))">← Volver</button>
+    <button class="btn-pos success" style="flex:1;" id="mp-btn-cobrar" onclick="confirmarCobroMesa(${total})" disabled>✅ Confirmar cobro</button>
+  `;
+}
+
+function seleccionarMedioCobro(key) {
+  mesaPanel.medioSeleccionado = key;
+  document.querySelectorAll('.medio-opt').forEach(b => b.classList.remove('selected'));
+  document.getElementById(`mop-${key}`)?.classList.add('selected');
+  document.getElementById('mp-btn-cobrar').disabled = false;
+  const wrap = document.getElementById('mp-efectivo-wrap');
+  if (wrap) wrap.style.display = key === 'efectivo' ? 'block' : 'none';
+}
+
+function calcularVueltoMesa(total) {
+  const recibido = parseFloat(document.getElementById('mp-recibido')?.value || 0);
+  const vuelto = recibido - total;
+  const el = document.getElementById('mp-vuelto');
+  if (el && recibido > 0) {
+    el.textContent = vuelto >= 0 ? `Vuelto: ${UI.moneda(vuelto)}` : `Falta: ${UI.moneda(-vuelto)}`;
+    el.style.color = vuelto >= 0 ? 'var(--mesa-libre)' : 'var(--mesa-ocupada)';
+  }
+}
+
+async function confirmarCobroMesa(total) {
+  if (!mesaPanel.medioSeleccionado) return;
+  const propina = parseFloat(document.getElementById('mp-propina')?.value || 0);
+  const btn = document.getElementById('mp-btn-cobrar');
+
+  await UI.withLoading(btn, async () => {
+    try {
+      await CajaAPI.cobrar({
+        comanda_id: mesaPanel.comanda.id,
+        pagos: [{ medio_pago: mesaPanel.medioSeleccionado, monto: total, propina }],
+      });
+      
+      const tipoCfe = document.getElementById('mp-tipo-cfe')?.value;
+      let razonSocial = document.getElementById('mp-razon-social')?.value || 'Consumidor Final';
+      let docReceptor = document.getElementById('mp-documento')?.value || '';
+      let tipoDoc = tipoCfe === '111' ? 'RUT' : 'CI';
+      
+      if (tipoCfe === '111' && (!docReceptor || !razonSocial || razonSocial === 'Consumidor Final')) {
+        UI.toast('Cobro exitoso, faltan datos para e-Factura', 'warning');
+      } else {
+        try {
+          await FacturacionAPI.emitir({
+            tipo: tipoCfe,
+            comanda_id: mesaPanel.comanda.id,
+            razon_social_receptor: razonSocial,
+            documento_receptor: docReceptor,
+            tipo_documento_receptor: tipoDoc,
+          });
+          UI.toast('Cobro y comprobante registrados', 'success');
+        } catch (eFact) {
+          UI.toast('Cobro exitoso. Error comprobante: ' + (eFact.message || ''), 'warning');
+        }
+      }
+
+      cerrarModal();
+      await cargarMesas(true); // true = forzar datos frescos después de cobrar
+    } catch (e) {
+      UI.toast(e.message || 'Error al registrar el cobro', 'error');
+    }
+  });
+}
+
+// ============================================================
+// Helpers
+// ============================================================
+
+function toggleCfeFieldsMesa() {
+  const tipo = document.getElementById('mp-tipo-cfe').value;
+  const razonWrap = document.getElementById('mp-cfe-razon-wrap');
+  if (tipo === '111') {
+    razonWrap.style.display = 'block';
+  } else {
+    razonWrap.style.display = 'none';
+  }
+}
+
+function cerrarModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  document.getElementById('modal-container').innerHTML = '';
+}
+
+async function cambiarEstadoMesa(mesaId, estado) {
+  try {
+    await MesasAPI.cambiarEstado(mesaId, { estado });
+    UI.toast(`Mesa marcada como ${estado.toLowerCase()}`, 'success');
+    await cargarMesas(true); // forzar datos frescos
+  } catch (e) {
+    UI.toast(e.message || 'Error al cambiar estado', 'error');
+  }
+}
+
+async function abrirComanda(mesaId) {
+  const body = document.getElementById('mp-body');
+  const footer = document.getElementById('mp-footer');
+  if (body) body.innerHTML = `<div style="text-align:center;padding:30px;"><div class="spinner-pos" style="width:24px;height:24px;margin:0 auto;"></div><div style="margin-top:10px;color:var(--text-muted);">Abriendo comanda...</div></div>`;
+  if (footer) footer.style.display = 'none';
+
+  try {
+    const mesa = todasLasMesas.find(m => m.id === mesaId);
+    if (mesa?.comanda_actual?.id) {
+      mesaPanel.comanda = await ComandasAPI.detalle(mesa.comanda_actual.id);
+      mesaPanel.mesaId = mesaId;
+      renderPanelComanda(mesa);
+      return;
+    }
+
+    const comanda = await ComandasAPI.crear({ mesa: mesaId });
+    mesaPanel.comanda = comanda;
+    mesaPanel.mesaId = mesaId;
+    await cargarMesas(true); // forzar datos frescos después de crear comanda
+    const mesaActual = todasLasMesas.find(m => m.id === mesaId) || { id: mesaId, numero: '?', capacidad: 0, estado: 'OCUPADA', comanda_actual: comanda };
+    renderPanelComanda(mesaActual);
+  } catch (e) {
+    UI.toast(e.message || 'Error al abrir comanda', 'error');
+    cerrarModal();
+  }
+}
+
+function irComanda(comandaId, accion) {
+  if (!comandaId) { UI.toast('No hay comanda activa', 'warning'); return; }
+  let url = `comanda.html?id=${comandaId}`;
+  if (accion) url += `&accion=${accion}`;
+  window.location.href = url;
+}
+
+// Cleanup al salir
+window.addEventListener('beforeunload', () => {
+  if (intervalId) clearInterval(intervalId);
+});
+</script>
+</body>
+</html>

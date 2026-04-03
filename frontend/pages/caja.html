@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caja — Backyard POS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    .caja-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 16px;
+    }
+
+    .movimientos-lista {
+      max-height: 450px;
+      overflow-y: auto;
+    }
+
+    /* Arqueo */
+    .arqueo-medio {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13.5px;
+    }
+    .arqueo-medio:last-child { border-bottom: none; }
+    .arqueo-medio-label { display: flex; align-items: center; gap: 8px; }
+    .arqueo-medio-val { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .caja-cerrada-banner {
+      text-align: center;
+      padding: 60px 30px;
+    }
+
+    .btn-abrir-caja {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 14px;
+      padding: 18px 40px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background .15s, transform .1s, box-shadow .15s;
+      font-family: var(--font-main);
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-abrir-caja:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 6px 24px rgba(245,158,11,.35);
+    }
+    .btn-abrir-caja:active { transform: scale(.97); }
+
+    @media (max-width: 800px) {
+      .caja-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<script src="http://localhost/assets/js/api.js?v=2"></script>
+<script>
+requireRol('administrador', 'supervisor', 'cajero');
+
+let cajaActiva = null;
+let movimientosCache = [];
+
+function mostrarDetalleMovimiento(id) {
+  const movimiento = movimientosCache.find(m => m.id === id);
+  if (!movimiento) return;
+
+  const reciboFuente = movimiento.recibo_url || movimiento.recibo;
+  const reciboHtml = reciboFuente ? `
+    <div style="margin-top:14px;text-align:center;">
+      <div style="font-weight:600;margin-bottom:8px;">Factura / Recibo</div>
+      <img src="${reciboFuente}" alt="Recibo" style="max-width:100%;border-radius:12px;box-shadow:0 2px 14px rgba(0,0,0,.22);" />
+    </div>
+  ` : '';
+
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-pos-backdrop" onclick="cerrarModal(event)">
+      <div class="modal-pos" onclick="event.stopPropagation()">
+        <div class="modal-pos-header">
+          <span>📄 Detalle de movimiento</span>
+          <button class="btn-pos ghost icon-only" onclick="cerrarModal()">✕</button>
+        </div>
+        <div class="modal-pos-body">
+          <div class="form-pos">
+            <div class="form-group"><span><b>Tipo:</b> ${movimiento.tipo_display || movimiento.tipo}</span></div>
+            <div class="form-group"><span><b>Medio:</b> ${movimiento.medio_display || movimiento.medio_pago}</span></div>
+            <div class="form-group"><span><b>Monto:</b> ${UI.moneda(movimiento.monto)}</span></div>
+            <div class="form-group"><span><b>Descripción:</b> ${movimiento.descripcion || '—'}</span></div>
+            <div class="form-group"><span><b>Registrado por:</b> ${movimiento.registrado_por || '—'}</span></div>
+            <div class="form-group"><span><b>Fecha:</b> ${UI.fechaHora(movimiento.creado_en)}</span></div>
+            ${reciboHtml}
+          </div>
+        </div>
+        <div class="modal-pos-footer">
+          <button class="btn-pos ghost" onclick="cerrarModal()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+renderLayout({ title: 'Caja', activeLink: 'caja' });
+
+document.getElementById('topbar-extra').innerHTML = `
+  <button class="btn-pos secondary sm" onclick="cargar()" title="Actualizar">🔄</button>
+`;
+
+async function cargar() {
+  try {
+    cajaActiva = await requestWithCache('GET', '/cajas/mi-caja/', {
+      cacheTTL: 30, // cache 30 segundos
+    });
+    movimientosCache = cajaActiva.movimientos || [];
+    renderCajaAbierta();
+  } catch (e) {
+    if (e.status === 404 || e.status === 400) {
+      cajaActiva = null;
+      renderCajaCerrada();
+    } else {
+      UI.toast('Error al cargar la caja (usando datos en caché si existen)', 'warning');
+      console.error('cargar() error:', e);
+    }
+  }
+}
+
+// ---- Caja cerrada ----
+function renderCajaCerrada() {
+  document.getElementById('topbar-title').textContent = 'Caja — Sin turno activo';
+  const content = document.getElementById('content-area');
+  content.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:center;min-height:400px;">
+      <div class="caja-cerrada-banner">
+        <div style="font-size:56px;margin-bottom:16px;">💰</div>
+        <div style="font-size:20px;font-weight:800;color:var(--text-primary);margin-bottom:8px;">
+          No hay caja abierta
+        </div>
+        <div style="font-size:14px;color:var(--text-muted);margin-bottom:24px;">
+          Abrí un turno de caja para comenzar a operar
+        </div>
+        <button class="btn-abrir-caja" onclick="abrirModalAbrirCaja()">
+          🔓 Abrir turno de caja
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// ---- Caja abierta ----
+function renderCajaAbierta() {
+  document.getElementById('topbar-title').textContent = 'Caja — Turno activo';
+
+  const movimientos = cajaActiva.movimientos || [];
+  const ingresos = parseFloat(cajaActiva.total_ingresos || movimientos.filter(m => m.tipo === 'ingreso').reduce((s, m) => s + parseFloat(m.monto), 0));
+  const egresos = parseFloat(cajaActiva.total_egresos || movimientos.filter(m => m.tipo === 'egreso').reduce((s, m) => s + parseFloat(m.monto), 0));
+  const saldoEsperado = parseFloat(cajaActiva.saldo_esperado || (parseFloat(cajaActiva.monto_inicial) + ingresos - egresos));
+
+  const content = document.getElementById('content-area');
+  content.innerHTML = `
+    <div class="caja-layout">
+
+      <!-- Panel izquierdo: movimientos -->
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- Stats rápidos -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+          <div class="stat-card">
+            <div class="stat-label">Apertura</div>
+            <div class="stat-value" style="font-size:20px;">${UI.moneda(cajaActiva.monto_inicial)}</div>
+            <div class="stat-change">${UI.fechaHora(cajaActiva.creado_en)}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Ingresos</div>
+            <div class="stat-value" style="font-size:20px;color:var(--mesa-libre);">${UI.moneda(ingresos)}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Egresos</div>
+            <div class="stat-value" style="font-size:20px;color:var(--mesa-ocupada);">${UI.moneda(egresos)}</div>
+          </div>
+        </div>
+
+        <!-- Movimientos -->
+        <div class="card-pos">
+          <div class="card-header-pos">
+            <span>Movimientos del turno</span>
+            <div style="display:flex;gap:6px;">
+              <button class="btn-pos success sm" onclick="abrirModalMovimiento('ingreso')">+ Ingreso</button>
+              <button class="btn-pos danger sm" onclick="abrirModalMovimiento('egreso')">− Egreso</button>
+            </div>
+          </div>
+          <div class="card-body-pos" style="padding:0;">
+            <div class="movimientos-lista" id="movimientos-lista">
+              ${!movimientos.length ? `
+                <div class="empty-state" style="padding:30px;">
+                  <div class="empty-state-icon">📋</div>
+                  <div class="empty-state-title">Sin movimientos</div>
+                  <div class="empty-state-sub">Los cobros y movimientos aparecerán aquí</div>
+                </div>
+              ` : movimientos.map(m => `
+                <div class="movimiento-row" onclick="mostrarDetalleMovimiento(${m.id})" style="cursor:pointer;">
+                  <div class="movimiento-tipo ${m.tipo.toLowerCase()}"></div>
+                  <div class="movimiento-desc">
+                    <div class="movimiento-titulo">${m.descripcion || m.tipo}</div>
+                    <div class="movimiento-hora">${UI.fechaHora(m.creado_en)} · ${m.registrado_por_nombre || ''}</div>
+                  </div>
+                  <div class="movimiento-monto ${m.tipo}">
+                    ${m.tipo === 'egreso' ? '−' : '+'}${UI.moneda(m.monto)}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Panel derecho: arqueo + cierre -->
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <div class="card-pos">
+          <div class="card-header-pos">💰 Arqueo estimado</div>
+          <div class="card-body-pos">
+            <div class="arqueo-medio">
+              <span class="arqueo-medio-label">📂 Apertura</span>
+              <span class="arqueo-medio-val">${UI.moneda(cajaActiva.monto_inicial)}</span>
+            </div>
+            <div class="arqueo-medio">
+              <span class="arqueo-medio-label" style="color:var(--mesa-libre);">↑ Ingresos</span>
+              <span class="arqueo-medio-val" style="color:var(--mesa-libre);">+ ${UI.moneda(ingresos)}</span>
+            </div>
+            <div class="arqueo-medio">
+              <span class="arqueo-medio-label" style="color:var(--mesa-ocupada);">↓ Egresos</span>
+              <span class="arqueo-medio-val" style="color:var(--mesa-ocupada);">− ${UI.moneda(egresos)}</span>
+            </div>
+            <div style="margin-top:12px;padding-top:12px;border-top:2px solid var(--accent);">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-weight:700;font-size:15px;">Saldo esperado</span>
+                <span style="font-size:24px;font-weight:900;color:var(--accent);font-variant-numeric:tabular-nums;">
+                  ${UI.moneda(saldoEsperado)}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desglose por medio de pago -->
+        ${renderDesgloseMedios(movimientos)}
+
+        <!-- Info cajero -->
+        <div class="card-pos">
+          <div class="card-header-pos">👤 Información del turno</div>
+          <div class="card-body-pos">
+            <div style="font-size:13px;color:var(--text-secondary);line-height:2;">
+              <div>Cajero: <b style="color:var(--text-primary);">${cajaActiva.cajero_nombre || '—'}</b></div>
+              <div>Apertura: <b style="color:var(--text-primary);">${UI.fechaHora(cajaActiva.creado_en)}</b></div>
+              <div>Duración: <b style="color:var(--text-primary);">${UI.tiempoDesde(cajaActiva.creado_en)}</b></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-pos danger full lg" onclick="abrirModalCierre()">
+          🔒 Cerrar turno de caja
+        </button>
+
+      </div>
+    </div>
+  `;
+}
+
+function renderDesgloseMedios(movimientos) {
+  // Cobros (ventas) agrupados por medio de pago
+  const ventas = movimientos.filter(m => m.tipo === 'ingreso' && m.medio_pago);
+  if (!ventas.length) return '';
+
+  const desglose = {};
+  const iconos = {
+    efectivo: '💵', debito: '💳', credito: '💳',
+    transferencia: '🏦', qr: '📱', mercado_pago: '🟦',
+  };
+
+  ventas.forEach(m => {
+    const mp = m.medio_pago || 'OTRO';
+    if (!desglose[mp]) desglose[mp] = 0;
+    desglose[mp] += parseFloat(m.monto);
+  });
+
+  return `
+    <div class="card-pos">
+      <div class="card-header-pos">📊 Por medio de pago</div>
+      <div class="card-body-pos" style="padding-top:4px;">
+        ${Object.entries(desglose).map(([medio, total]) => `
+          <div class="arqueo-medio">
+            <span class="arqueo-medio-label">${iconos[medio] || '💰'} ${medio}</span>
+            <span class="arqueo-medio-val">${UI.moneda(total)}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ---- Modal: abrir caja ----
+function abrirModalAbrirCaja() {
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-pos-backdrop" onclick="cerrarModal(event)">
+      <div class="modal-pos" onclick="event.stopPropagation()">
+        <div class="modal-pos-header">
+          <span>🔓 Abrir turno de caja</span>
+          <button class="btn-pos ghost icon-only" onclick="cerrarModal()">✕</button>
+        </div>
+        <div class="modal-pos-body">
+          <div class="form-pos">
+            <div class="form-group">
+              <label>Monto inicial (efectivo en caja)</label>
+              <input type="number" id="monto-inicial" placeholder="0.00" min="0" step="0.01"
+                     autofocus style="font-size:24px;font-weight:700;text-align:center;">
+            </div>
+            <div class="form-group">
+              <label>Observaciones (opcional)</label>
+              <input type="text" id="obs-apertura" placeholder="Turno noche, etc.">
+            </div>
+          </div>
+        </div>
+        <div class="modal-pos-footer">
+          <button class="btn-pos ghost" onclick="cerrarModal()">Cancelar</button>
+          <button class="btn-pos primary lg" id="btn-confirmar-apertura" onclick="confirmarApertura()">
+            ✅ Abrir caja
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  setTimeout(() => document.getElementById('monto-inicial')?.focus(), 100);
+}
+
+async function confirmarApertura() {
+  const monto = parseFloat(document.getElementById('monto-inicial')?.value || 0);
+  const obs   = document.getElementById('obs-apertura')?.value || '';
+  const btn   = document.getElementById('btn-confirmar-apertura');
+
+  if (isNaN(monto) || monto < 0) {
+    UI.toast('Ingresá un monto válido', 'warning');
+    return;
+  }
+
+  await UI.withLoading(btn, async () => {
+    try {
+      await CajaAPI.abrir({ monto_inicial: monto, observaciones_apertura: obs });
+      cerrarModal();
+      UI.toast('Caja abierta exitosamente', 'success');
+      await cargar();
+    } catch (e) {
+      UI.toast(e.message || 'Error al abrir la caja', 'error');
+    }
+  });
+}
+
+// ---- Modal: movimiento ----
+function abrirModalMovimiento(tipo) {
+  const esIngreso = tipo === 'ingreso';
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-pos-backdrop" onclick="cerrarModal(event)">
+      <div class="modal-pos" onclick="event.stopPropagation()">
+        <div class="modal-pos-header">
+          <span>${esIngreso ? '💵 Registrar ingreso' : '📤 Registrar egreso'}</span>
+          <button class="btn-pos ghost icon-only" onclick="cerrarModal()">✕</button>
+        </div>
+        <div class="modal-pos-body">
+          <div class="form-pos">
+            <div class="form-group">
+              <label>Monto</label>
+              <input type="number" id="mov-monto" placeholder="0.00" min="0.01" step="0.01"
+                     autofocus style="font-size:22px;font-weight:700;text-align:center;">
+            </div>
+            <div class="form-group">
+              <label>Descripción</label>
+              <input type="text" id="mov-desc"
+                     placeholder="${esIngreso ? 'Concepto del ingreso' : 'Motivo del egreso'}"
+                     maxlength="200">
+            </div>
+            <div class="form-group">
+              <label>Recibo (opcional)</label>
+              <input type="file" id="mov-recibo" accept="image/*" />
+              <small style="color:var(--text-muted);">Foto del recibo o comprobante (JPG/PNG).</small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-pos-footer">
+          <button class="btn-pos ghost" onclick="cerrarModal()">Cancelar</button>
+          <button class="btn-pos ${esIngreso ? 'success' : 'danger'}" id="btn-mov"
+                  onclick="confirmarMovimiento('${tipo}')">
+            ${esIngreso ? '+ Registrar ingreso' : '− Registrar egreso'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function confirmarMovimiento(tipo) {
+  const monto = parseFloat(document.getElementById('mov-monto')?.value || 0);
+  const desc  = document.getElementById('mov-desc')?.value?.trim() || '';
+  const btn   = document.getElementById('btn-mov');
+
+  if (!monto || monto <= 0) { UI.toast('Ingresá un monto válido', 'warning'); return; }
+  if (!desc) { UI.toast('Ingresá una descripción', 'warning'); return; }
+
+  await UI.withLoading(btn, async () => {
+    try {
+      const formData = new FormData();
+      formData.append('tipo', tipo);
+      formData.append('monto', monto);
+      formData.append('descripcion', desc);
+
+      const reciboInput = document.getElementById('mov-recibo');
+      if (reciboInput && reciboInput.files && reciboInput.files[0]) {
+        formData.append('recibo', reciboInput.files[0]);
+      }
+
+      await CajaAPI.movimiento(cajaActiva.id, formData);
+      cerrarModal();
+      UI.toast(`${tipo === 'ingreso' ? 'Ingreso' : 'Egreso'} registrado`, 'success');
+      await cargar();
+    } catch (e) {
+      UI.toast(e.message || 'Error al registrar movimiento', 'error');
+    }
+  });
+}
+
+// ---- Modal: cierre de caja ----
+function abrirModalCierre() {
+  const movimientos = cajaActiva?.movimientos || [];
+  const ingresos = movimientos.filter(m => m.tipo === 'ingreso').reduce((s, m) => s + parseFloat(m.monto), 0);
+  const egresos  = movimientos.filter(m => m.tipo === 'egreso').reduce((s, m) => s + parseFloat(m.monto), 0);
+  const saldoEsperado = parseFloat(cajaActiva.monto_inicial) + ingresos - egresos;
+
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-pos-backdrop" onclick="cerrarModal(event)">
+      <div class="modal-pos" style="max-width:500px;" onclick="event.stopPropagation()">
+        <div class="modal-pos-header">
+          <span>🔒 Cierre de caja</span>
+          <button class="btn-pos ghost icon-only" onclick="cerrarModal()">✕</button>
+        </div>
+        <div class="modal-pos-body">
+          <div style="background:var(--bg-elevated);border-radius:10px;padding:16px;margin-bottom:16px;">
+            <div class="arqueo-row">
+              <span>Monto inicial</span>
+              <span>${UI.moneda(cajaActiva.monto_inicial)}</span>
+            </div>
+            <div class="arqueo-row">
+              <span>Total ingresos</span>
+              <span style="color:var(--mesa-libre);">+ ${UI.moneda(ingresos)}</span>
+            </div>
+            <div class="arqueo-row">
+              <span>Total egresos</span>
+              <span style="color:var(--mesa-ocupada);">− ${UI.moneda(egresos)}</span>
+            </div>
+            <div class="arqueo-row total">
+              <span>Saldo esperado</span>
+              <span>${UI.moneda(saldoEsperado)}</span>
+            </div>
+          </div>
+
+          <div class="form-pos">
+            <div class="form-group">
+              <label>Monto real en caja (conteo físico)</label>
+              <input type="number" id="monto-real" placeholder="${saldoEsperado.toFixed(2)}"
+                     min="0" step="0.01" autofocus oninput="calcularDiferencia(${saldoEsperado})"
+                     style="font-size:20px;font-weight:700;text-align:center;">
+              <div id="diferencia-info" style="margin-top:6px;font-size:13px;font-weight:600;"></div>
+            </div>
+            <div class="form-group">
+              <label>Observaciones de cierre</label>
+              <input type="text" id="obs-cierre" placeholder="Novedad, aclaración, etc.">
+            </div>
+          </div>
+        </div>
+        <div class="modal-pos-footer">
+          <button class="btn-pos ghost" onclick="cerrarModal()">Cancelar</button>
+          <button class="btn-pos danger lg" id="btn-cerrar-caja" onclick="confirmarCierre()">
+            🔒 Confirmar cierre
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function calcularDiferencia(saldoEsperado) {
+  const real = parseFloat(document.getElementById('monto-real')?.value || 0);
+  const dif  = real - saldoEsperado;
+  const info = document.getElementById('diferencia-info');
+  if (info && !isNaN(real)) {
+    if (Math.abs(dif) < 0.01) {
+      info.textContent = '✅ Sin diferencia';
+      info.style.color = 'var(--mesa-libre)';
+    } else if (dif > 0) {
+      info.textContent = `Sobrante: ${UI.moneda(dif)}`;
+      info.style.color = 'var(--mesa-libre)';
+    } else {
+      info.textContent = `Faltante: ${UI.moneda(-dif)}`;
+      info.style.color = 'var(--mesa-ocupada)';
+    }
+  }
+}
+
+async function confirmarCierre() {
+  const montoReal = parseFloat(document.getElementById('monto-real')?.value);
+  const obs = document.getElementById('obs-cierre')?.value || '';
+  const btn = document.getElementById('btn-cerrar-caja');
+
+  if (isNaN(montoReal) || montoReal < 0) {
+    UI.toast('Ingresá el monto real de la caja', 'warning');
+    return;
+  }
+
+  // Validar que no haya mesas ocupadas
+  try {
+    const mesas = await requestWithCache('GET', '/mesas/', {
+      bypassCache: true, // datos frescos para esta validación
+    });
+    const mesasOcupadas = (mesas.results || mesas || []).filter(m => m.estado === 'ocupada');
+    if (mesasOcupadas.length > 0) {
+      UI.toast(`❌ No se puede cerrar caja: hay ${mesasOcupadas.length} mesa(s) ocupada(s). Cobra primero.`, 'error');
+      return;
+    }
+  } catch (e) {
+    UI.toast('No se pudo verificar el estado de mesas', 'error');
+    return;
+  }
+
+  if (!UI.confirm(`¿Confirmás el cierre de caja con ${UI.moneda(montoReal)}?`)) return;
+
+  await UI.withLoading(btn, async () => {
+    try {
+      await CajaAPI.cerrar(cajaActiva.id, { monto_final_declarado: montoReal, observaciones: obs });
+      cerrarModal();
+      cajaActiva = null;
+      UI.toast('Caja cerrada exitosamente', 'success');
+      await cargar();
+    } catch (e) {
+      UI.toast(e.message || 'Error al cerrar la caja', 'error');
+    }
+  });
+}
+
+function cerrarModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  document.getElementById('modal-container').innerHTML = '';
+}
+
+cargar();
+</script>
+</body>
+</html>

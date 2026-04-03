@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos Online — Backyard POS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    .pedidos-kanban {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .kanban-col {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .kanban-header {
+      padding: 12px 14px;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .kanban-header.nuevo    { background: rgba(245,158,11,.12); color: var(--accent); }
+    .kanban-header.confirmado { background: rgba(99,102,241,.12); color: #6366f1; }
+    .kanban-header.preparando { background: rgba(245,100,0,.12);  color: #f97316; }
+    .kanban-header.listo     { background: rgba(16,185,129,.12);  color: var(--mesa-libre); }
+
+    .kanban-count {
+      background: rgba(255,255,255,.15);
+      border-radius: 10px;
+      padding: 1px 8px;
+      font-size: 12px;
+    }
+
+    .kanban-items { padding: 8px; min-height: 80px; }
+
+    .pedido-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color .15s, transform .1s;
+    }
+    .pedido-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .pedido-card:last-child { margin-bottom: 0; }
+
+    .pedido-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .pedido-num { font-weight: 800; font-size: 14px; color: var(--accent); }
+    .pedido-tiempo { font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+    .pedido-tipo {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .pedido-tipo.delivery   { background: rgba(99,102,241,.2); color: #6366f1; }
+    .pedido-tipo.take_away  { background: rgba(16,185,129,.2); color: var(--mesa-libre); }
+
+    .pedido-cliente { font-size: 12.5px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
+    .pedido-items-preview { font-size: 11px; color: var(--text-muted); }
+    .pedido-total { font-size: 13px; font-weight: 700; color: var(--accent); margin-top: 6px; }
+
+    /* Vista lista (alternativa) */
+    .pedido-row {
+      display: grid;
+      grid-template-columns: 70px 110px 1fr 90px 100px 90px 100px;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .pedido-row:hover { background: var(--bg-hover); }
+    .pedido-row.header {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: default;
+    }
+    .pedido-row.header:hover { background: transparent; }
+
+    .vista-toggle {
+      display: flex;
+      gap: 4px;
+    }
+    .vista-btn {
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .vista-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    @media (max-width: 1000px) {
+      .pedidos-kanban { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .pedidos-kanban { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<script src="http://localhost/assets/js/api.js?v=2"></script>
+<script>
+requireLogin();
+
+let pedidos = [];
+let vista = 'kanban'; // 'kanban' | 'lista'
+let filtroTipo = null;
+let intervalId;
+
+renderLayout({ title: 'Pedidos Online', activeLink: 'pedidos' });
+
+document.getElementById('topbar-extra').innerHTML = `
+  <div style="display:flex;align-items:center;gap:8px;">
+    <select id="filtro-tipo" onchange="setFiltroTipo(this.value)"
+            style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);padding:6px 10px;font-size:13px;font-family:var(--font-main);outline:none;">
+      <option value="">Todos los tipos</option>
+      <option value="delivery">🛵 Delivery</option>
+      <option value="take_away">🥡 Take away</option>
+    </select>
+    <div class="vista-toggle">
+      <button class="vista-btn active" id="btn-kanban" onclick="setVista('kanban')">⊞</button>
+      <button class="vista-btn" id="btn-lista" onclick="setVista('lista')">≡</button>
+    </div>
+    <button class="btn-pos secondary sm" onclick="cargar()">🔄</button>
+  </div>
+`;
+
+function setFiltroTipo(val) {
+  filtroTipo = val || null;
+  cargar();
+}
+
+function setVista(v) {
+  vista = v;
+  document.getElementById('btn-kanban').classList.toggle('active', v === 'kanban');
+  document.getElementById('btn-lista').classList.toggle('active', v === 'lista');
+  renderPagina();
+}
+
+async function cargar() {
+  try {
+    const params = { activo: true };
+    if (filtroTipo) params.tipo = filtroTipo;
+    const data = await PedidosAPI.listar(params);
+    pedidos = data.results || data;
+    renderPagina();
+  } catch (e) {
+    UI.toast('Error al cargar pedidos', 'error');
+  }
+}
+
+const ESTADOS_KANBAN = [
+  { key: 'recibido',       label: '🆕 Nuevo',       cls: 'nuevo' },
+  { key: 'confirmado',     label: '✅ Confirmado',   cls: 'confirmado' },
+  { key: 'en_preparacion', label: '🔥 Preparando',   cls: 'preparando' },
+  { key: 'listo',          label: '📦 Listo',        cls: 'listo' },
+];
+
+const ESTADO_SIGUIENTE = {
+  recibido: 'confirmado', confirmado: 'en_preparacion', en_preparacion: 'listo', listo: 'en_camino',
+};
+
+function renderPagina() {
+  const content = document.getElementById('content-area');
+
+  // Resumen
+  const nuevo     = pedidos.filter(p => p.estado === 'recibido').length;
+  const activos   = pedidos.filter(p => !['entregado','cancelado'].includes(p.estado)).length;
+  const hoy       = pedidos.length;
+
+  const resumen = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:14px;">
+      <div class="stat-card" style="padding:10px;text-align:center;">
+        <div class="stat-label">Nuevos</div>
+        <div class="stat-value" style="font-size:22px;color:var(--accent);">${nuevo}</div>
+      </div>
+      <div class="stat-card" style="padding:10px;text-align:center;">
+        <div class="stat-label">Activos</div>
+        <div class="stat-value" style="font-size:22px;">${activos}</div>
+      </div>
+      <div class="stat-card" style="padding:10px;text-align:center;">
+        <div class="stat-label">Total cargados</div>
+        <div class="stat-value" style="font-size:22px;">${hoy}</div>
+      </div>
+    </div>
+  `;
+
+  content.innerHTML = resumen + (vista === 'kanban' ? renderKanban() : renderLista());
+}
+
+function renderKanban() {
+  return `
+    <div class="pedidos-kanban">
+      ${ESTADOS_KANBAN.map(col => {
+        const items = pedidos.filter(p => p.estado === col.key);
+        return `
+          <div class="kanban-col">
+            <div class="kanban-header ${col.cls}">
+              <span>${col.label}</span>
+              <span class="kanban-count">${items.length}</span>
+            </div>
+            <div class="kanban-items">
+              ${!items.length ? `
+                <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:12px;">Sin pedidos</div>
+              ` : items.map(p => renderPedidoCard(p)).join('')}
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderPedidoCard(p) {
+  const tipo = p.tipo || '';
+  const tipoLabel = p.tipo === 'delivery' ? 'Delivery' : 'Take away';
+  const cliente = p.cliente_nombre || p.nombre_cliente || 'Cliente';
+  const items = p.items || [];
+  const preview = items.slice(0, 2).map(i => `${i.cantidad}× ${i.producto_nombre}`).join(', ');
+  const mas = items.length > 2 ? ` +${items.length - 2} más` : '';
+  const sig = ESTADO_SIGUIENTE[p.estado];
+
+  return `
+    <div class="pedido-card" onclick="abrirDetallePedido(${p.id})">
+      <div class="pedido-card-header">
+        <span class="pedido-num">#${p.numero || p.id}</span>
+        <span class="pedido-tiempo">⏱ ${UI.tiempoDesde(p.creado_en)}</span>
+      </div>
+      <span class="pedido-tipo ${tipo}">${tipoLabel}</span>
+      <div style="margin-top:7px;">
+        <div class="pedido-cliente">👤 ${cliente}</div>
+        ${p.telefono ? `<div style="font-size:11px;color:var(--text-muted);">📞 ${p.telefono}</div>` : ''}
+        ${p.tipo === 'delivery' && p.direccion ? `<div style="font-size:11px;color:var(--text-muted);">📍 ${p.direccion}</div>` : ''}
+      </div>
+      <div class="pedido-items-preview">${preview}${mas}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+        <span class="pedido-total">${UI.moneda(p.total || 0)}</span>
+        ${sig ? `
+          <button class="btn-pos primary sm" onclick="avanzarEstado(event, ${p.id}, '${sig}')">
+            → ${sig}
+          </button>
+        ` : `
+          <span class="badge-pos listo" style="font-size:10px;">Listo</span>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function renderLista() {
+  if (!pedidos.length) {
+    return `
+      <div class="card-pos">
+        <div class="empty-state" style="padding:60px;">
+          <div class="empty-state-icon">📦</div>
+          <div class="empty-state-title">Sin pedidos activos</div>
+          <div class="empty-state-sub">Los pedidos online aparecerán aquí en tiempo real</div>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="card-pos" style="overflow:hidden;">
+      <div class="pedido-row header">
+        <span>#</span>
+        <span>Cliente</span>
+        <span>Dirección / Nota</span>
+        <span>Tipo</span>
+        <span>Estado</span>
+        <span>Tiempo</span>
+        <span>Total</span>
+      </div>
+      ${pedidos.map(p => `
+        <div class="pedido-row" onclick="abrirDetallePedido(${p.id})">
+          <span style="font-weight:800;color:var(--accent);">#${p.numero || p.id}</span>
+          <span style="font-weight:600;">${p.cliente_nombre || p.nombre_cliente || '—'}</span>
+          <span style="font-size:12px;color:var(--text-secondary);">${p.direccion || p.observaciones || '—'}</span>
+          <span><span class="pedido-tipo ${p.tipo || ''}" style="font-size:10px;">
+            ${p.tipo === 'delivery' ? 'Delivery' : 'Take away'}
+          </span></span>
+          <span><span class="badge-pos ${(p.estado || '').toLowerCase()}" style="font-size:10px;">${p.estado}</span></span>
+          <span style="font-size:12px;color:var(--text-muted);">${UI.tiempoDesde(p.creado_en)}</span>
+          <span style="font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;">${UI.moneda(p.total || 0)}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+async function avanzarEstado(event, pedidoId, nuevoEstado) {
+  event.stopPropagation();
+  try {
+    await PedidosAPI.estado(pedidoId, { estado: nuevoEstado });
+    UI.toast(`Pedido → ${nuevoEstado}`, 'success', 1500);
+    await cargar();
+  } catch (e) {
+    UI.toast(e.message || 'Error al cambiar estado', 'error');
+  }
+}
+
+async function abrirDetallePedido(id) {
+  try {
+    const p = await PedidosAPI.detalle(id);
+    const items = p.items || [];
+    const sig = ESTADO_SIGUIENTE[p.estado];
+
+    document.getElementById('modal-container').innerHTML = `
+      <div class="modal-pos-backdrop" onclick="cerrarModal(event)">
+        <div class="modal-pos" style="max-width:520px;" onclick="event.stopPropagation()">
+          <div class="modal-pos-header">
+            <span>Pedido #${p.numero || p.id} <span class="badge-pos ${(p.estado||'').toLowerCase()}" style="font-size:11px;">${p.estado}</span></span>
+            <button class="btn-pos ghost icon-only" onclick="cerrarModal()">✕</button>
+          </div>
+          <div class="modal-pos-body">
+
+            <!-- Info cliente -->
+            <div style="background:var(--bg-elevated);border-radius:10px;padding:12px;margin-bottom:14px;">
+              <div style="font-size:13px;line-height:1.9;color:var(--text-secondary);">
+                <div>👤 <b style="color:var(--text-primary);">${p.cliente_nombre || p.nombre_cliente || '—'}</b></div>
+                ${p.telefono ? `<div>📞 ${p.telefono}</div>` : ''}
+                ${p.tipo === 'delivery' && p.direccion ? `<div>📍 ${p.direccion}</div>` : ''}
+                <div>${p.tipo === 'delivery' ? '🛵 Delivery' : '🥡 Take away'} · ${UI.fechaHora(p.creado_en)}</div>
+                ${p.observaciones ? `<div>📝 ${p.observaciones}</div>` : ''}
+              </div>
+            </div>
+
+            <!-- Items -->
+            <div style="margin-bottom:14px;">
+              ${items.map(i => `
+                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13.5px;">
+                  <span><b>${i.cantidad}×</b> ${i.producto_nombre}</span>
+                  <span style="font-weight:700;color:var(--accent);">${UI.moneda(i.subtotal)}</span>
+                </div>
+              `).join('')}
+              <div style="display:flex;justify-content:space-between;padding:10px 0 0;font-weight:800;font-size:16px;">
+                <span>Total</span>
+                <span style="color:var(--accent);">${UI.moneda(p.total || 0)}</span>
+              </div>
+            </div>
+
+            <!-- Pago -->
+            ${p.medio_pago ? `
+              <div style="font-size:13px;color:var(--text-muted);">
+                Pago: <b style="color:var(--text-primary);">${p.medio_pago}</b>
+                ${p.pagado ? ' · <span style="color:var(--mesa-libre);">✅ Pagado</span>' : ' · <span style="color:var(--accent);">⏳ Pendiente</span>'}
+              </div>
+            ` : ''}
+          </div>
+          <div class="modal-pos-footer">
+            ${p.estado !== 'cancelado' ? `
+              <button class="btn-pos danger sm" onclick="cancelarPedido(${p.id})">✕ Cancelar</button>
+            ` : ''}
+            <button class="btn-pos ghost" onclick="cerrarModal()">Cerrar</button>
+            ${sig ? `
+              <button class="btn-pos primary" onclick="avanzarEstado(event,${p.id},'${sig}');cerrarModal()">
+                → ${sig}
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  } catch (e) {
+    UI.toast('Error al cargar el pedido', 'error');
+  }
+}
+
+async function cancelarPedido(id) {
+  if (!UI.confirm('¿Cancelar este pedido?')) return;
+  try {
+    await PedidosAPI.estado(id, { estado: 'cancelado' });
+    cerrarModal();
+    UI.toast('Pedido cancelado', 'info');
+    await cargar();
+  } catch (e) {
+    UI.toast(e.message || 'Error al cancelar', 'error');
+  }
+}
+
+function cerrarModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  document.getElementById('modal-container').innerHTML = '';
+}
+
+cargar();
+intervalId = setInterval(cargar, 20000);
+window.addEventListener('beforeunload', () => clearInterval(intervalId));
+</script>
+</body>
+</html>
