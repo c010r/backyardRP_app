@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservas — Backyard POS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    .reserva-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      transition: border-color .15s;
+      cursor: pointer;
+    }
+    .reserva-card:hover { border-color: var(--accent); }
+
+    .reserva-card.pendiente   { border-left: 3px solid var(--accent); }
+    .reserva-card.confirmada  { border-left: 3px solid var(--mesa-libre); }
+    .reserva-card.cancelada   { border-left: 3px solid var(--mesa-ocupada); opacity: .6; }
+    .reserva-card.sin_asistir { border-left: 3px solid var(--mesa-sucia); opacity: .6; }
+
+    .reserva-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .reserva-nombre { font-weight: 700; font-size: 15px; }
+    .reserva-fecha  { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+    .reserva-hora   { font-weight: 700; font-size: 18px; color: var(--accent); }
+
+    .reserva-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    .reserva-dato {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .reserva-obs {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Calendario mini (días de la semana) */
+    .semana-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .semana-nav::-webkit-scrollbar { display: none; }
+
+    .dia-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      transition: all .15s;
+      white-space: nowrap;
+      min-width: 56px;
+    }
+    .dia-btn:hover { border-color: var(--accent); }
+    .dia-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+    .dia-btn .dia-nombre { font-size: 10px; text-transform: uppercase; font-weight: 700; }
+    .dia-btn .dia-num    { font-size: 18px; font-weight: 800; }
+    .dia-btn .dia-count  { font-size: 10px; font-weight: 600; }
+    .dia-btn.active .dia-count { color: rgba(0,0,0,.6); }
+
+    .reservas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+
+    /* Franjas horarias */
+    .franja {
+      margin-bottom: 20px;
+    }
+    .franja-titulo {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+  </style>
+</head>
+<body>
+<script src="http://localhost/assets/js/api.js?v=2"></script>
+<script>
+requireLogin();
+
+let reservas = [];
+let fechaActiva = new Date().toISOString().split('T')[0];
+let semana = generarSemana();
+
+renderLayout({ title: 'Reservas', activeLink: 'reservas' });
+
+document.getElementById('topbar-extra').innerHTML = `
+  <div style="display:flex;gap:8px;">
+    <button class="btn-pos primary sm" onclick="abrirModalNuevaReserva()">+ Nueva reserva</button>
+    <button class="btn-pos secondary sm" onclick="cargar()">🔄</button>
+  </div>
+`;
+
+function generarSemana() {
+  const dias = [];
+  const hoy = new Date();
+  for (let i = -1; i <= 6; i++) {
+    const d = new Date(hoy);
+    d.setDate(hoy.getDate() + i);
+    dias.push(d.toISOString().split('T')[0]);
+  }
+  return dias;
+}
+
+async function cargar() {
+  try {
+    const data = await ReservasAPI.listar({ fecha: fechaActiva });
+    reservas = data.results || data;
+    renderPagina();
+  } catch (e) {
+    UI.toast('Error al cargar reservas', 'error');
+  }
+}
+
+function renderPagina() {
+  const content = document.getElementById('content-area');
+
+  // Contar reservas por día para la semana
+  const countPorDia = {};
+  semana.forEach(f => countPorDia[f] = 0);
+
+  const totalDia    = reservas.length;
+  const confirmadas = reservas.filter(r => r.estado === 'confirmada').length;
+  const pendientes  = reservas.filter(r => r.estado === 'pendiente').length;
+  const personas    = reservas.reduce((s, r) => s + (r.personas || 0), 0);
+
+  content.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Navegador de semana -->
+      <div class="semana-nav" id="semana-nav">
+        ${semana.map(fecha => {
+          const d = new Date(fecha + 'T12:00');
+          const dNombre = d.toLocaleDateString('es-AR', { weekday: 'short' });
+          const dNum    = d.getDate();
+          return `
+            <button class="dia-btn ${fecha === fechaActiva ? 'active' : ''}"
+                    onclick="cambiarFecha('${fecha}', this)">
+              <span class="dia-nombre">${dNombre}</span>
+              <span class="dia-num">${dNum}</span>
+              <span class="dia-count" id="count-${fecha}">—</span>
+            </button>
+          `;
+        }).join('')}
+        <input type="date" value="${fechaActiva}" onchange="cambiarFechaDirecta(this.value)"
+               style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);padding:8px;font-size:13px;font-family:var(--font-main);outline:none;min-width:140px;">
+      </div>
+
+      <!-- Stats del día -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;">
+        <div class="stat-card" style="padding:10px;text-align:center;">
+          <div class="stat-label">Reservas</div>
+          <div class="stat-value" style="font-size:22px;">${totalDia}</div>
+        </div>
+        <div class="stat-card" style="padding:10px;text-align:center;">
+          <div class="stat-label">Confirmadas</div>
+          <div class="stat-value" style="font-size:22px;color:var(--mesa-libre);">${confirmadas}</div>
+        </div>
+        <div class="stat-card" style="padding:10px;text-align:center;">
+          <div class="stat-label">Pendientes</div>
+          <div class="stat-value" style="font-size:22px;color:var(--accent);">${pendientes}</div>
+        </div>
+        <div class="stat-card" style="padding:10px;text-align:center;">
+          <div class="stat-label">Personas</div>
+          <div class="stat-value" style="font-size:22px;">${personas}</div>
+        </div>
+      </div>
+
+      <!-- Lista de reservas -->
+      ${!reservas.length ? `
+        <div class="card-pos">
+          <div class="empty-state" style="padding:60px;">
+            <div class="empty-state-icon">📅</div>
+            <div class="empty-state-title">Sin reservas este día</div>
+            <div class="empty-state-sub">
+              ${new Date(fechaActiva + 'T12:00').toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}
+            </div>
+          </div>
+        </div>
+      ` : renderReservasPorFranja()}
+
+    </div>
+  `;
+}
+
+function renderReservasPorFranja() {
+  // Agrupar por franja horaria
+  const franjas = {};
+  reservas.forEach(r => {
+    const hora = (r.hora || '00:00').substring(0, 2);
+    const franja = hora < '21' ? 'Temprano (hasta 21:00)' :
+                   hora < '23' ? 'Nocturno (21:00 - 23:00)' : 'Trasnoche (23:00+)';
+    if (!franjas[franja]) franjas[franja] = [];
+    franjas[franja].push(r);
+  });
+
+  // Ordenar por hora
+  Object.values(franjas).forEach(arr =>
+    arr.sort((a, b) => (a.hora || '').localeCompare(b.hora || ''))
+  );
+
+  return Object.entries(franjas).map(([titulo, items]) => `
+    <div class="franja">
+      <div class="franja-titulo">⏰ ${titulo} · ${items.length} reserva${items.length !== 1 ? 's' : ''}</div>
+      <div class="reservas-grid">
+        ${items.map(r => renderReservaCard(r)).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderReservaCard(r) {
+  const estado = (r.estado || 'PENDIENTE').toLowerCase();
+  return `
+    <div class="reserva-card ${estado}" onclick="abrirDetalleReserva(${r.id})">
+      <div class="reserva-header">
+        <div>
+          <div class="reserva-nombre">${r.nombre || r.cliente_nombre || '—'}</div>
+          <div class="reserva-fecha">
+            ${new Date(r.fecha + 'T12:00').toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })}
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div class="reserva-hora">${r.hora || '—'}</div>
+          <span class="badge-pos ${estado}" style="font-size:10px;">${r.estado || '—'}</span>
+        </div>
+      </div>
+
+      <div class="reserva-info">
+        <div class="reserva-dato">👥 ${r.personas || 0} personas</div>
+        ${r.telefono    ? `<div class="reserva-dato">📞 ${r.telefono}</div>` : ''}
+        ${r.mesa_etiqueta ? `<div class="reserva-dato">🪑 ${r.mesa_etiqueta}</div>` : ''}
+        ${r.origen      ? `<div class="reserva-dato">🌐 ${r.origen}</div>` : ''}
+      </div>
+
+      ${r.observaciones ? `<div class="reserva-obs">${r.observaciones}</div>` : ''}
+    </div>
+  `;
+}
+
+function cambiarFecha(fecha, btn) {
+  fechaActiva = fecha;
+  semana = generarSemanaDesde(fecha);
+  cargar();
+}
+
+function cambiarFechaDirecta(fecha) {
+  fechaActiva = fecha;
+  semana = generarSemanaDesde(fecha);
+  cargar();
+}
+
+function generarSemanaDesde(centro) {
+  const dias = [];
+  const base = new Date(centro + 'T12:00');
+  for (let i = -1; i <= 6; i++) {
+    const d = new Date(base);
+    d.setDate(base.getDate() + i);
+    dias.push(d.toISOString().split('T')[0]);
+  }
+  return dias;
+}
+
+// ---- Modal nueva reserva ----
+function abrirModalNuevaReserva() {
+  const hoy = new Date().toISOString().split('T')[0];
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-pos-backdrop" onclick="cerrarModal(event)">
+      <div class="modal-pos" onclick="event.stopPropagation()">
+        <div class="modal-pos-header">
+          <span>📅 Nueva reserva</span>
+          <button class="btn-pos ghost icon-only" onclick="cerrarModal()">✕</button>
+        </div>
+        <div class="modal-pos-body">
+          <div class="form-pos">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" id="res-nombre" placeholder="Nombre del titular" required autofocus>
+              </div>
+              <div class="form-group">
+                <label>Teléfono</label>
+                <input type="tel" id="res-telefono" placeholder="+54 9 ...">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="form-group">
+                <label>Fecha *</label>
+                <input type="date" id="res-fecha" value="${fechaActiva}" min="${hoy}" required>
+              </div>
+              <div class="form-group">
+                <label>Hora *</label>
+                <input type="time" id="res-hora" value="21:00" required>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="form-group">
+                <label>Personas *</label>
+                <input type="number" id="res-personas" value="2" min="1" max="50" required>
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="res-email" placeholder="correo@ejemplo.com">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Observaciones</label>
+              <input type="text" id="res-obs" placeholder="Cumpleaños, alérgicos, preferencias...">
+            </div>
+          </div>
+        </div>
+        <div class="modal-pos-footer">
+          <button class="btn-pos ghost" onclick="cerrarModal()">Cancelar</button>
+          <button class="btn-pos primary" id="btn-crear-res" onclick="confirmarNuevaReserva()">
+            ✅ Crear reserva
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function confirmarNuevaReserva() {
+  const nombre   = document.getElementById('res-nombre')?.value?.trim();
+  const telefono = document.getElementById('res-telefono')?.value?.trim();
+  const fecha    = document.getElementById('res-fecha')?.value;
+  const hora     = document.getElementById('res-hora')?.value;
+  const personas = parseInt(document.getElementById('res-personas')?.value || 1);
+  const email    = document.getElementById('res-email')?.value?.trim();
+  const obs      = document.getElementById('res-obs')?.value?.trim();
+  const btn      = document.getElementById('btn-crear-res');
+
+  if (!nombre || !fecha || !hora) {
+    UI.toast('Completá los campos obligatorios', 'warning');
+    return;
+  }
+
+  const body = { nombre, fecha, hora, personas };
+  if (telefono) body.telefono = telefono;
+  if (email)    body.email    = email;
+  if (obs)      body.observaciones = obs;
+  body.origen = 'interno';
+
+  await UI.withLoading(btn, async () => {
+    try {
+      await ReservasAPI.crear(body);
+      cerrarModal();
+      UI.toast('Reserva creada', 'success');
+      fechaActiva = fecha;
+      await cargar();
+    } catch (e) {
+      UI.toast(e.message || e.data?.detail || 'Error al crear la reserva', 'error');
+    }
+  });
+}
+
+// ---- Modal detalle / acciones ----
+async function abrirDetalleReserva(id) {
+  const r = reservas.find(x => x.id === id);
+  if (!r) return;
+
+  const estado = r.estado || 'pendiente';
+  document.getElementById('modal-container').innerHTML = `
+    <div class="modal-pos-backdrop" onclick="cerrarModal(event)">
+      <div class="modal-pos" onclick="event.stopPropagation()">
+        <div class="modal-pos-header">
+          <span>Reserva — ${r.nombre || '—'}</span>
+          <button class="btn-pos ghost icon-only" onclick="cerrarModal()">✕</button>
+        </div>
+        <div class="modal-pos-body">
+          <div style="background:var(--bg-elevated);border-radius:10px;padding:14px;margin-bottom:14px;font-size:13.5px;line-height:2;color:var(--text-secondary);">
+            <div>👤 <b style="color:var(--text-primary);">${r.nombre || '—'}</b></div>
+            ${r.telefono ? `<div>📞 ${r.telefono}</div>` : ''}
+            ${r.email    ? `<div>✉️ ${r.email}</div>` : ''}
+            <div>📅 ${new Date(r.fecha + 'T12:00').toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} a las <b style="color:var(--accent);">${r.hora}</b></div>
+            <div>👥 ${r.personas} personas</div>
+            ${r.mesa_etiqueta ? `<div>🪑 ${r.mesa_etiqueta}</div>` : ''}
+            ${r.observaciones ? `<div>📝 ${r.observaciones}</div>` : ''}
+          </div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span class="badge-pos ${estado.toLowerCase()}">${estado}</span>
+            ${r.origen ? `<span class="badge-pos pendiente" style="font-size:10px;">${r.origen}</span>` : ''}
+          </div>
+        </div>
+        <div class="modal-pos-footer">
+          ${estado === 'pendiente' ? `
+            <button class="btn-pos danger sm" onclick="accionReserva(${r.id},'cancelar')">✕ Cancelar</button>
+            <button class="btn-pos success" onclick="accionReserva(${r.id},'confirmar')">✅ Confirmar</button>
+          ` : estado === 'confirmada' ? `
+            <button class="btn-pos danger sm" onclick="accionReserva(${r.id},'cancelar')">✕ Cancelar</button>
+            <button class="btn-pos ghost" onclick="cerrarModal()">Cerrar</button>
+          ` : `
+            <button class="btn-pos ghost" onclick="cerrarModal()">Cerrar</button>
+          `}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function accionReserva(id, accion) {
+  try {
+    if (accion === 'confirmar') {
+      await ReservasAPI.confirmar(id);
+      UI.toast('Reserva confirmada', 'success');
+    } else {
+      if (!UI.confirm('¿Cancelar esta reserva?')) return;
+      await ReservasAPI.cancelar(id);
+      UI.toast('Reserva cancelada', 'info');
+    }
+    cerrarModal();
+    await cargar();
+  } catch (e) {
+    UI.toast(e.message || 'Error', 'error');
+  }
+}
+
+function cerrarModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  document.getElementById('modal-container').innerHTML = '';
+}
+
+cargar();
+</script>
+</body>
+</html>
